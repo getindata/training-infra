@@ -1,0 +1,5 @@
+.idea
+log
+log/*
+roles_external/*
+oregon.pem

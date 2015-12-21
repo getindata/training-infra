@@ -1,0 +1,5 @@
+- hosts: all
+  roles:
+    - ansiblebit.oracle-java
+    - { role: devenv, tags: ['devenv'] }
+

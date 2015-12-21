@@ -1,0 +1,7 @@
+- include: maven.yml
+
+
+- name: Install dev packages
+  yum: pkg={{item}}
+  with_items:
+    - git

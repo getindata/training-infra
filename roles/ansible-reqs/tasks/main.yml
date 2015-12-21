@@ -1,0 +1,12 @@
+---
+#
+# Installs packages required for Ansible on RedHat/CentOS hosts.
+#
+
+- name: Install minimal requirements for Ansible (on RedHat/Centos)
+  script: install_missing_package.sh {{item}}
+  register: res
+  changed_when: "res.stdout.startswith('Install')"
+  with_items:
+     - python
+     - python-pycurl
