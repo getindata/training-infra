@@ -1,2 +1,6 @@
 ---
 - src: ansiblebit.oracle-java
+
+- src: https://github.com/willshersystems/ansible-users
+  path: roles_external
+  name: users
