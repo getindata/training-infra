@@ -1,0 +1,16 @@
+---
+- name: Add debian wheezy-backports repository
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main' state=present
+    update_cache=yes
+
+- name: Remove maven 2
+  apt: name=maven2 state=absent
+
+- name: Install devenv packages
+  apt: name={{item}} state=present
+  with_items: 
+    - maven
+    - git
+    - curl
+    - jq
+
