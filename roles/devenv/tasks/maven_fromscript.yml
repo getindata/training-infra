@@ -1,0 +1,8 @@
+---
+- name: Compy maven script
+  copy: src=install_maven.sh dest=/tmp mode=755
+- name: Install maven from script
+  shell: ./install_maven.sh
+  args:
+    chdir: /tmp
+    creates: /usr/local/maven

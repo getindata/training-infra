@@ -1,7 +1,6 @@
-- include: maven.yml
+- include: RedHat.yml
+  when: ansible_os_family == "RedHat"
 
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
 
-- name: Install dev packages
-  yum: pkg={{item}}
-  with_items:
-    - git
