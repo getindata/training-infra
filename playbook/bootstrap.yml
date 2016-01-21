@@ -10,8 +10,10 @@
     lineinfile: regexp="requiretty" dest=/etc/sudoers.d/os_defaults state=absent
 
 - hosts: all
+  gather_facts: false
+  connection: paramiko
   roles:
-    - ansible-reqs
+    - { role: ansible-reqs, tags: [ansible-reqs] }
 
 - hosts: all
   vars:
@@ -19,6 +21,7 @@
     users_admin_sudo_password: false
   roles:
     - role: users
+      tags: [ansible-user]
       users_ssh_keys:
         - name: ansible 
           keys:
