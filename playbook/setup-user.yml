@@ -1,0 +1,9 @@
+- hosts: all
+  roles:
+    - role: users
+      users_admin_sudo_password: false
+      users: 
+        - name: kzarzycki
+          uid: 1001
+          is_admin: true
+ 
