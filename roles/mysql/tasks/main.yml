@@ -17,5 +17,5 @@
     - concerts.tsv
     - deploy_mysql.sh
 
-- name: Install Confluent from script
+- name: Deploy accounts
   command: /home/ec2-user/deploy_mysql.sh
