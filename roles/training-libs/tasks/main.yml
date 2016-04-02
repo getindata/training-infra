@@ -1,4 +1,13 @@
 ---
+# TODO: run on all hosts
+- name: ntpd restart
+  service: name=ntpd state=restarted
+
+# TODO: run on all hosts
+- name: set chkconfig ntpd on
+  command: chkconfig ntpd on
+  become: yes
+  become_user: root
 
 - name: Copy scripts
   copy: src="{{item}}" dest=/home/ec2-user mode=755
@@ -56,5 +65,6 @@
 - name: install python-pip
   yum: name=python-pip state=latest
 
-- name: installing numpy
-  pip: name=numpy
+# TODO: make it work
+#- name: installing numpy
+#  pip: name=numpy

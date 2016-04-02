@@ -1,4 +1,4 @@
-- hosts: edges
+- hosts: master
   vars:
     training_dir: /training
     training_data_dir: /training/data
@@ -11,32 +11,31 @@
       - eagle
       - gazelle
       - goose
-      - impala
       - leopard
       - lizard
       - pigeon
       - shark
       - snail
-      - swan
-      - vulture
-      - bison
-      - cobra
-      - deer
-      - duck
-      - elephant
-      - giraffe
-      - hippo
-      - lemur
-      - lion
-      - penguin
-      - rhino
-      - sloth
+#      - swan
+#      - vulture
+#      - bison
+#      - cobra
+#      - deer
+#      - duck
+#      - elephant
+#      - giraffe
+#      - hippo
+#      - lemur
+#      - lion
+#      - penguin
+#      - rhino
+#      - sloth
       - snake
       - tiger
   gather_facts: false
   roles:
-   - role: training-accounts
+   - role: mysql
    - role: training-libs
    - role: training-data
-   - role: mysql
-   - role: hue
+   - role: training-accounts
+#   - role: hue
