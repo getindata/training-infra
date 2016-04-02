@@ -1,0 +1,47 @@
+---
+
+- name: Create user accounts
+  user: name={{ item }}
+  with_items:
+    - "{{ users }}"
+
+
+- name: Set password to user
+  shell: echo {{ item }}:{{ item }} | sudo chpasswd
+  no_log: True
+  with_items:
+    - "{{ users }}"
+
+
+- name: Set authorized_keys
+  command: cp /home/ec2-user/.ssh/authorized_keys /home/{{ item }}/.ssh
+  become: yes
+  become_user: root
+  with_items:
+    - "{{ users }}"
+
+
+- name: Add maven to barshrc
+  command: echo "export PATH=\$PATH:/usr/local/maven/bin" >> /home/${user}/.bashrc
+  with_items:
+    - "{{ users }}"
+
+
+- name: Enable passwordless login
+  command: sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+
+
+- name: Restart sshd
+  service: name=sshd state=restarted
+
+
+- name: Copy scripts
+  copy: src="{{ item }}" dest=/home/ec2-user mode=755
+  with_items:
+    - onboard-user.sh
+
+
+- name: Onboard a user
+  command: /home/ec2-user/onboard-user.sh {{ item }}
+  with_items:
+    - "{{ users }}"

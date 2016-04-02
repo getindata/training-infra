@@ -1,0 +1,42 @@
+- hosts: edges
+  vars:
+    training_dir: /training
+    training_data_dir: /training/data
+    training_jar_dir: /training/jar
+    users:
+      - beaver
+      - cheetah
+      - crocodile
+      - dolphin
+      - eagle
+      - gazelle
+      - goose
+      - impala
+      - leopard
+      - lizard
+      - pigeon
+      - shark
+      - snail
+      - swan
+      - vulture
+      - bison
+      - cobra
+      - deer
+      - duck
+      - elephant
+      - giraffe
+      - hippo
+      - lemur
+      - lion
+      - penguin
+      - rhino
+      - sloth
+      - snake
+      - tiger
+  gather_facts: false
+  roles:
+   - role: training-accounts
+   - role: training-libs
+   - role: training-data
+   - role: mysql
+   - role: hue
