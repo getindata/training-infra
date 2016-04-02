@@ -24,13 +24,13 @@ drop-user-hive-db-tables() {
 	user=$1
         run-as-hdfs hive -e "drop table if exists ${user}.stream;"
         run-as-hdfs hive -e "drop database if exists ${user};"
-	run-as-hdfs hadoop fs -rmr /apps/hive/warehouse/${user}.db
+	run-as-hdfs hadoop fs -rmr /apps/hive/warehouse/${user}.db /user/hive/warehouse/${user}.db
 }
 
 create-user-hive-db() {
 	user=$1
 	run-as-hdfs hive -e "create database if not exists ${user};"
-	run-as-hdfs hadoop fs -chown ${user} /apps/hive/warehouse/${user}.db
+	run-as-hdfs hadoop fs -chown ${user} /apps/hive/warehouse/${user}.db /user/hive/warehouse/${user}.db
 }
 
 
