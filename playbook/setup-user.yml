@@ -1,4 +1,5 @@
 - hosts: all
+  gather_facts: false
   roles:
     - role: users
       users_admin_sudo_password: false
@@ -6,4 +7,8 @@
         - name: kzarzycki
           uid: 1001
           is_admin: true
+        - name: cdh
+          uid: 1556
+          is_admin: true
+          password: "$6$g0Faz/hHO$iVOy/keiRcCRmMmTN3G0FOCdKdWHDZqBzbDKX4idXSeibGnaSyiTDIiy.RCN2ay.ZIxqp40DKURDO/Pxbcqak1"
  

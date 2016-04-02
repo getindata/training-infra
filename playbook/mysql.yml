@@ -1,0 +1,4 @@
+- hosts: masters
+  gather_facts: false
+  roles:
+   - role: mysql
