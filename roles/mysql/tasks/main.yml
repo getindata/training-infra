@@ -1,0 +1,21 @@
+---
+- name: install mysql client
+  yum: name=mysql state=latest
+
+- name: install the mysql rpm from a remote repo
+  yum: name=http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm state=present
+
+- name: install mysql server
+  yum: name=mysql-server state=latest
+
+- name: start mysql server
+  service: name=mysqld state=started
+
+- name: Copy files and scripts
+  copy: src="{{item}}" dest=/home/ec2-user mode=755
+  with_items:
+    - concerts.tsv
+    - deploy_mysql.sh
+
+- name: Install Confluent from script
+  command: /home/ec2-user/deploy_mysql.sh

@@ -1,0 +1,16 @@
+# tasks file for cdh
+---
+- name: upload schema.sql
+  copy: src=/home/adam/jarek/schema.sql dest=/tmp/schema.sql owner=root group=root mode=0777
+
+- name: upload CM script
+  copy: src=cm-setup.sh dest=/tmp/cm-setup.sh owner=root group=root mode=0777
+
+- name: run CM script
+  command: /tmp/cm-setup.sh
+
+- name: upload CDH setup script
+  copy: src=/home/adam/jarek/cdh-setup.py dest=/tmp/cdh-setup.py owner=root group=root mode=0777
+
+- name: execute CDH setup
+  command: /tmp/cdh-setup.py --cmhost ip-10-35-159-139.us-west-2.compute.internal --nodes ip-10-35-159-139.us-west-2.compute.internal ip-10-28-29-185.us-west-2.compute.internal ip-10-122-224-217.us-west-2.compute.internal ip-10-18-148-217.us-west-2.compute.internal ip-10-18-18-57.us-west-2.compute.internal ip-10-29-2-102.us-west-2.compute.internal
