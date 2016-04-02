@@ -1,0 +1,11 @@
+---
+
+- name: Copy script to install hue
+  copy: src="{{item}}" dest=/home/ec2-user mode=755
+  with_items:
+    - install-hue.sh
+
+- name: Install HUE
+  command: /home/ec2-user/install-hue.sh
+  become: yes
+  become_user: root
