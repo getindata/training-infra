@@ -1,4 +1,8 @@
-- hosts: master
+- hosts: all
+  roles:
+    - role: setup-nodes
+
+- hosts: edge
   vars:
     training_dir: /training
     training_data_dir: /training/data
@@ -34,8 +38,8 @@
       - tiger
   gather_facts: false
   roles:
-   - role: mysql
-   - role: training-libs
-   - role: training-data
-   - role: training-accounts
+#   - role: mysql
+#   - role: training-libs
+#   - role: training-data
+#   - role: training-accounts
 #   - role: hue
