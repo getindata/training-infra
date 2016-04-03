@@ -20,7 +20,8 @@ create-core-hive-tables() {
                         drop table if exists wordhappiness;
                         drop table if exists lyrics;
                         $CREATE_TABLE uuser (id int, fname string, lname string, gender string, birthdate string, state string, registrationdate string) $FORMAT location \"$DATA_DIR/user\";
-                        $CREATE_TABLE streamsimple (userid int, songid int, ts string) $FORMAT location \"$DATA_DIR/stream\";
+                        $CREATE_TABLE streamsimple (userid int, songid int, ts string) $FORMAT location \"$DATA_DIR/streamsimple\";
+                        $CREATE_TABLE stream (timestamp timestamp, host string, userid int, trackid int, duration int) $FORMAT location \"$DATA_DIR/stream\";
                         $CREATE_TABLE track (id int, title string, artistname string) $FORMAT location \"$DATA_DIR/track\";
                         $CREATE_TABLE wordhappiness (word string, happiness float) $FORMAT location \"$DATA_DIR/wordhappiness\";
                         $CREATE_TABLE airport(id int, code string) $FORMAT location \"$DATA_DIR/airport\";
