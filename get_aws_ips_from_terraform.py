@@ -16,11 +16,13 @@ def parse_terraform_show(path):
     cmd = subprocess.Popen('terraform show %s' % (path), shell=True, stdout=subprocess.PIPE)
     for line in cmd.stdout:
         if 'aws_instance.' in line:
-            type = get_part(line, '.', 1).strip()[:-1]
+            type = get_part(get_part(line, ':', 0), '.', 1).strip()
             if not type in host:
                 host[type] = {}
-                host[type]['private_dns'] = []
-                host[type]['public_ip'] = []
+                if not 'private_dns' in host[type]:
+                    host[type]['private_dns'] = []
+                if not 'public_ip' in host[type]:
+                    host[type]['public_ip'] = []
 
         if 'private_dns' in line:
             host[type]['private_dns'].append(get_part(line, ' = ', 1).strip())
@@ -28,6 +30,7 @@ def parse_terraform_show(path):
         if 'public_ip' in line:
             host[type]['public_ip'].append(get_part(line, ' = ', 1).strip())
 
+    print host
     return host
 
 
