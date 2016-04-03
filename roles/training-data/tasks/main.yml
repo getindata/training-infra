@@ -21,7 +21,6 @@
 - name: download streamrock zip
   command: wget https://www.dropbox.com/s/u5tlk8kts005qim/streamrock.zip
 
-
 - name: download and unarchive streamrock.zip
   unarchive: src=streamrock.zip dest={{ training_data_dir }} copy=no
 
@@ -38,6 +37,7 @@
   become_user: hdfs
   with_items:
     - "{{ training_data_dir }}/user"
+    - "{{ training_data_dir }}/streamsimple"
     - "{{ training_data_dir }}/stream"
     - "{{ training_data_dir }}/track"
     - "{{ training_data_dir }}/wordhappiness"
@@ -60,7 +60,8 @@
   become_user: hdfs
   with_items:
     - { file: 'users.tsv', dir: 'user' }
-    - { file: 'played.tsv', dir: 'stream' }
+    - { file: 'played.tsv', dir: 'streamsimple' }
+    - { file: 'stream.tsv', dir: 'stream' }
     - { file: 'song.tsv', dir: 'track' }
     - { file: 'wordhappiness.tsv', dir: 'wordhappiness' }
     - { file: 'playedWithMetadata.tsv', dir: 'playedWithMetadata' } 
