@@ -12,30 +12,39 @@ def get_part(line, splitter, index):
 
 
 def parse_terraform_show(path):
-    host = []
-    i = 0
+    host = {}
     cmd = subprocess.Popen('terraform show %s' % (path), shell=True, stdout=subprocess.PIPE)
     for line in cmd.stdout:
+        if 'aws_instance.' in line:
+            type = get_part(line, '.', 1).strip()[:-1]
+            if not type in host:
+                host[type] = {}
+                host[type]['private_dns'] = []
+                host[type]['public_ip'] = []
+
         if 'private_dns' in line:
-            host.append({})
-            host[i]['private_dns'] = get_part(line, ' = ', 1).strip()
+            host[type]['private_dns'].append(get_part(line, ' = ', 1).strip())
 
         if 'public_ip' in line:
-            host[i]['public_ip'] = get_part(line, ' = ', 1).strip()
-            i = i + 1
+            host[type]['public_ip'].append(get_part(line, ' = ', 1).strip())
 
     return host
 
 
+def write_host_to_file(host, type, fo):
+    print type, host[type]
+    fo.write("[%s]\n" % (get_part(type, '-', 1)))
+    for i in range(len(host[type]['public_ip'])):
+        fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
+
+
 def write_hosts_file(host):
-    filename = 'hosts_%s' % (host[0]['public_ip'])
+    filename = 'hosts_%s' % (host['cdh-master']['public_ip'][0])
     fo = open(filename, "wb")
 
-    fo.write("[master]\n");
-    fo.write("xbsd-master-1 ansible_ssh_host=%s\n" % (host[0]['public_ip']))
-    fo.write("[slave]\n")
-    for j in range(len(host) - 1):
-        fo.write("xbsd-slave-%d ansible_ssh_host=%s\n" % (j+1, host[j+1]['public_ip']))
+    write_host_to_file(host, 'cdh-edge', fo)
+    write_host_to_file(host, 'cdh-master', fo) 
+    write_host_to_file(host, 'cdh-slave', fo)
 
     fo.close()
     return filename
@@ -47,11 +56,17 @@ def link_filename(filename):
 
 
 def write_hosts_list(host):
-    command = "  command: /tmp/cdh-setup.py --cmhost %s" % (host[0]['private_dns'])
+    command = "  command: /tmp/cdh-setup.py --cmhost %s" % (host['cdh-master']['private_dns'][0])
     command += " --nodes"
-    for j in range(len(host)):
-        command += " %s" % (host[j]['private_dns'])
+    all_nodes = []
+    for type in ['cdh-master', 'cdh-slave']:
+        all_nodes += host[type]['private_dns']
 
+    for node in all_nodes:
+        command += " %s" % node
+
+    print command
+    
     file = open('roles/cm/tasks/main.yml')
     lines = file.readlines()
     lines = lines[:-1]
