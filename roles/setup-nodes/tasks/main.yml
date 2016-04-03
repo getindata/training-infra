@@ -1,0 +1,11 @@
+---
+- name: ntpd restart
+  service: name=ntpd state=restarted
+
+- name: set chkconfig ntpd on
+  command: chkconfig ntpd on
+  become: yes
+  become_user: root
+
+- name: install numpy
+  yum: name=numpy state=latest
