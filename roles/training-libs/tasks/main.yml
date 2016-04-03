@@ -1,11 +1,17 @@
 ---
-# TODO: run on all hosts
-- name: ntpd restart
-  service: name=ntpd state=restarted
+- name: Create client-directory for sqoop
+  file: path=/var/lib/sqoop owner=sqoop group=sqoop mode=0755 state=directory
 
-# TODO: run on all hosts
-- name: set chkconfig ntpd on
-  command: chkconfig ntpd on
+- name: Get MySQL connector from the web
+  get_url: url=http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz dest=/tmp/mysql-connector-java-5.1.38.tar.gz
+
+- name: Unarchive MysQL connector to /tmp
+  command: tar -xvf /tmp/mysql-connector-java-5.1.38.tar.gz -C /tmp
+  become: yes
+  become_user: root
+
+- name: Copy MySQL connector to /var/lib/sqoop/
+  command: cp /tmp/mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar /var/lib/sqoop
   become: yes
   become_user: root
 
@@ -61,10 +67,3 @@
 
 - name: build examples
   command: /home/ec2-user/build-examples.sh
-
-- name: install python-pip
-  yum: name=python-pip state=latest
-
-# TODO: make it work
-#- name: installing numpy
-#  pip: name=numpy
