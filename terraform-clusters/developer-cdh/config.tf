@@ -1,6 +1,6 @@
 provider "aws" {
-    access_key = "AKIAJPKNSSRXWVZO3GYQ"
-    secret_key = "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"
+    access_key = "XXXX"
+    secret_key = "XXXX"
     region = "us-west-2"
 }
 
@@ -73,7 +73,7 @@ resource "aws_instance" "cdh-slave" {
     ami = "ami-4dbf9e7d"
 #    ami = "ami-2cf8901c"
     instance_type = "m3.large"
-    count = 1
+    count = 4
     key_name = "oregon"
 
     root_block_device {
