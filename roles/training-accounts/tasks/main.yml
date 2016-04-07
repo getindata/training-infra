@@ -1,7 +1,10 @@
 ---
+- name: Create developer group
+  group: name=developer state=present
+
 
 - name: Create user accounts
-  user: name={{ item }}
+  user: name={{ item }} append=yes groups=developer
   with_items:
     - "{{ users }}"
 
