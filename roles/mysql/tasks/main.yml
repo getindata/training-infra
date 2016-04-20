@@ -8,14 +8,11 @@
 - name: install mysql server
   yum: name=mysql-server state=latest
 
+- name: configure /etc/my.cnf to use default-storage-engine=InnoDB
+  lineinfile: dest=/etc/my.cnf regexp=^default-storage-engine= line=default-storage-engine=InnoDB
+
+- name: configure /etc/my.cnf to use sql_mode=STRICT_ALL_TABLES
+  lineinfile: dest=/etc/my.cnf regexp=^sql_mode= line=sql_mode=STRICT_ALL_TABLES
+
 - name: start mysql server
   service: name=mysqld state=started
-
-- name: Copy files and scripts
-  copy: src="{{item}}" dest=/home/ec2-user mode=755
-  with_items:
-    - concerts.tsv
-    - deploy_mysql.sh
-
-- name: Deploy accounts
-  command: /home/ec2-user/deploy_mysql.sh
