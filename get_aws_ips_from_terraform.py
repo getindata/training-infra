@@ -35,10 +35,10 @@ def parse_terraform_show(path):
 
 
 def write_host_to_file(host, type, fo):
-    print type, host[type]
     fo.write("[%s]\n" % (get_part(type, '-', 1)))
-    for i in range(len(host[type]['public_ip'])):
-        fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
+    if type in host:
+        for i in range(len(host[type]['public_ip'])):
+            fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
 
 
 def write_hosts_file(host):
