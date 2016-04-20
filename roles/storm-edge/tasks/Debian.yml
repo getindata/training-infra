@@ -1,0 +1,3 @@
+---
+- name: installing supervisor
+  apt: name=unzip state=present
