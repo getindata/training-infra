@@ -1,0 +1,12 @@
+---
+
+- name: Copy script to create users in HUE
+  copy: src="{{item}}" dest=/home/ec2-user mode=755
+  with_items:
+    - create-user-in-hue.sh
+
+
+- name: Create user in HUE
+  command: /home/ec2-user/create-user-in-hue.sh {{ item }}
+  with_items:
+    - "{{ users }}"
