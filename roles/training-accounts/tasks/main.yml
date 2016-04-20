@@ -30,7 +30,7 @@
     - "{{ users }}"
 
 
-- name: Enable passwordless login
+- name: Enable password-based login
   command: sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 
 

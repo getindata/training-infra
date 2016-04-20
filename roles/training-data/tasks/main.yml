@@ -13,6 +13,7 @@
     - "{{ training_dir }}"
     - "{{ training_jar_dir }}"
     - "{{ training_data_dir }}"
+    - "{{ training_data_lyrics_dir }}"
 
 - name: download avro tools
   get_url: url=http://central.maven.org/maven2/org/apache/avro/avro-tools/1.7.7/avro-tools-1.7.7.jar dest={{ training_jar_dir }} mode=0755
@@ -20,6 +21,7 @@
 
 - name: download streamrock zip
   command: wget https://www.dropbox.com/s/u5tlk8kts005qim/streamrock.zip
+
 
 - name: download and unarchive streamrock.zip
   unarchive: src=streamrock.zip dest={{ training_data_dir }} copy=no
@@ -73,7 +75,20 @@
   copy: src="{{ item }}" dest=/home/ec2-user mode=755
   with_items:
     - create-core-hive-tables.sh
+    - concerts.tsv
+    - onboard_concerts.sh
+    - generate_lyrics_index.py
+
+
+- name: Onboard streamrock and concert
+  command: /home/ec2-user/onboard_concerts.sh
 
 
 - name: recreate Hive tables
   command: /home/ec2-user/create-core-hive-tables.sh {{ training_data_dir }}
+
+
+- name: Create lyrics for a user
+  command: /home/ec2-user/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics.json {{ training_data_lyrics_dir }}
+  with_items:
+    - "{{ users }}"

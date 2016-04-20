@@ -1,8 +1,20 @@
 ---
+- name: install wget
+  yum: name=wget state=latest
+
+- name: add sbt repo
+  get_url: url=https://bintray.com/sbt/rpm/rpm dest=/etc/yum.repos.d/bintray-sbt-rpm.repo mode=0644
+
+- name: install the latest version of sbt
+  yum: name=sbt state=latest
+
+- yum: name=nano state=latest
+- yum: name=httpie state=latest
+
 - name: Create client-directory for sqoop
   file: path=/var/lib/sqoop owner=sqoop group=sqoop mode=0755 state=directory
 
-- name: Get MySQL connector from the web
+- name: Get Java MySQL connector from the web
   get_url: url=http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz dest=/tmp/mysql-connector-java-5.1.38.tar.gz
 
 - name: Unarchive MysQL connector to /tmp
@@ -34,12 +46,6 @@
 
 - name: install the latest version of openssl
   yum: name=openssl state=latest
-
-- name: download stb
-  get_url: url=https://bintray.com/sbt/rpm/rpm dest=/etc/yum.repos.d/bintray-sbt-rpm.repo mode=0644
-
-- name: install the latest version of sbt
-  yum: name=sbt state=latest
 
 - name: install the latest version of git
   yum: name=git state=latest
