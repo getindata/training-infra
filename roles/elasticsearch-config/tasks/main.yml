@@ -1,0 +1,12 @@
+---
+- name: copy config
+  copy: src="elasticsearch.yml" dest=/opt/elasticsearch-2.3.1/config owner=elasticsearch group=elasticsearch mode=644
+
+- name: restarting Elastic Search
+  command: supervisorctl restart elasticsearch
+  ignore_errors: true
+
+- name: starting/restarting supervisord
+  service: name=supervisord state=restarted
+  async: 45
+  poll: 0 
