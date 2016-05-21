@@ -41,8 +41,8 @@ def write_host_to_file(host, type, fo):
             fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
 
 
-def write_hosts_file(host):
-    filename = 'hosts_%s' % (host['cdh-master']['public_ip'][0])
+def write_hosts_file(host, directory):
+    filename = '%s/hosts' % (directory)
     fo = open(filename, "wb")
 
     write_host_to_file(host, 'cdh-edge', fo)
@@ -53,16 +53,11 @@ def write_hosts_file(host):
     return filename
 
 
-def link_filename(filename):
-    subprocess.Popen('rm -rf hadoop_hosts', shell=True, stdout=subprocess.PIPE)
-    subprocess.Popen('ln -s %s hadoop_hosts' % (filename), shell=True, stdout=subprocess.PIPE)
-
-
 def write_hosts_list(host):
     command = "  command: /tmp/cdh-setup.py --cmhost %s" % (host['cdh-master']['private_dns'][0])
     command += " --nodes"
     all_nodes = []
-    for type in ['cdh-master', 'cdh-slave']:
+    for type in ['cdh-master', 'cdh-slave', 'cdh-edge']:
         all_nodes += host[type]['private_dns']
 
     for node in all_nodes:
@@ -81,15 +76,15 @@ def write_hosts_list(host):
     fo.close()
 
 
-path = 'terraform.tfstate'
-opts, args = getopt.getopt(sys.argv[1:],"p:")
+terraform_dir = '.'
+opts, args = getopt.getopt(sys.argv[1:],"i:")
 for k, v in opts:
-    if k == '-p':
-        path = v
+    if k == '-i':
+        terraform_dir = v
 
+path = '%s/terraform.tfstate' % terraform_dir
 host = parse_terraform_show(path)
 
 if len(host) > 0:
-    filename = write_hosts_file(host)
-    link_filename(filename)
+    filename = write_hosts_file(host, terraform_dir)
     write_hosts_list(host)
