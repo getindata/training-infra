@@ -58,7 +58,8 @@ def write_hosts_list(host):
     command += " --nodes"
     all_nodes = []
     for type in ['cdh-master', 'cdh-slave', 'cdh-edge']:
-        all_nodes += host[type]['private_dns']
+        if type in host:
+            all_nodes += host[type]['private_dns']
 
     for node in all_nodes:
         command += " %s" % node
