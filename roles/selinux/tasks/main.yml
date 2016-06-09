@@ -4,3 +4,5 @@
 
 - name: Rebooting host
   command: /sbin/reboot
+  async: 45
+  poll: 0 
