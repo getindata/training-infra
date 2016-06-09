@@ -8,6 +8,12 @@
 - name: install mysql server
   yum: name=mysql-server state=latest
 
+- name: install the MySQL client developer package
+  yum: name=mysql-devel state=latest
+
+- name: install the MySQL connector
+  yum: name=mysql-connector-java state=latest
+
 - name: configure /etc/my.cnf to use default-storage-engine=InnoDB
   lineinfile: dest=/etc/my.cnf regexp=^default-storage-engine= line=default-storage-engine=InnoDB
 
