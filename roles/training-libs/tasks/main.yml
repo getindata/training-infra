@@ -6,10 +6,16 @@
   get_url: url=https://bintray.com/sbt/rpm/rpm dest=/etc/yum.repos.d/bintray-sbt-rpm.repo mode=0644
 
 - name: install the latest version of sbt
-  yum: name=sbt state=latest
+  yum: name=sbt state=latest disable_gpg_check=yes
 
 - yum: name=nano state=latest
 - yum: name=httpie state=latest
+
+- name: adding group sqoop
+  group: name=sqoop state=present
+
+- name: adding user sqoop
+  user: name=sqoop comment="Sqoop" group=sqoop
 
 - name: Create client-directory for sqoop
   file: path=/var/lib/sqoop owner=sqoop group=sqoop mode=0755 state=directory
@@ -61,6 +67,12 @@
 
 - name: install the latest version of snakebite
   easy_install: name=snakebite state=latest
+
+- name: chmod py files for snakebite
+  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b3-py2.7.egg/EGG-INFO/requires.txt mode=0755
+
+- name: chmod py file for snakebite
+  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b3-py2.7.egg/EGG-INFO/namespace_packages.txt mode=755
 
 - name: install the latest version of unzip
   yum: name=unzip state=latest
