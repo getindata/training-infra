@@ -15,6 +15,7 @@
     - "{{ training_data_dir }}"
     - "{{ training_data_lyrics_dir }}"
 
+
 - name: download avro tools
   get_url: url=http://central.maven.org/maven2/org/apache/avro/avro-tools/1.7.7/avro-tools-1.7.7.jar dest={{ training_jar_dir }} mode=0755
 
@@ -24,7 +25,7 @@
 
 
 - name: download and unarchive streamrock.zip
-  unarchive: src=streamrock.zip dest={{ training_data_dir }} copy=no
+  unarchive: src=streamrock.zip dest={{ training_dir }} copy=no
 
 
 - name: remove hdfs directory
@@ -41,13 +42,16 @@
     - "{{ training_data_dir }}/user"
     - "{{ training_data_dir }}/streamsimple"
     - "{{ training_data_dir }}/stream"
+    - "{{ training_data_dir }}/stream-2014-01-01"
     - "{{ training_data_dir }}/track"
     - "{{ training_data_dir }}/wordhappiness"
     - "{{ training_data_dir }}/playedWithMetadata"
     - "{{ training_data_dir }}/flight"
     - "{{ training_data_dir }}/airport"
     - "{{ training_data_dir }}/lyrics"
+    - "{{ training_data_dir }}/concert"
     - "/incoming/logs/upload"
+    - "/incoming/mysql/concert"
 
 
 - name: chmod incoming directories
@@ -56,7 +60,7 @@
   become_user: hdfs
 
 
-- name: upload data to HDFS
+- name: upload data to trainig data dir in HDFS
   command: hdfs dfs -put {{ training_data_dir }}/{{ item.file }} {{ training_data_dir }}/{{ item.dir }}
   become: yes
   become_user: hdfs
@@ -64,12 +68,24 @@
     - { file: 'users.tsv', dir: 'user' }
     - { file: 'played.tsv', dir: 'streamsimple' }
     - { file: 'stream.tsv', dir: 'stream' }
+    - { file: 'stream.tsv.2014-01-01', dir: 'stream-2014-01-01' }
     - { file: 'song.tsv', dir: 'track' }
     - { file: 'wordhappiness.tsv', dir: 'wordhappiness' }
     - { file: 'playedWithMetadata.tsv', dir: 'playedWithMetadata' } 
     - { file: 'lyrics.avro', dir: 'lyrics' }
     - { file: 'user.parquet', dir: '.' }
+    - { file: 'concerts.json', dir: 'concert' }
 
+
+- name: upload data to trainin jar dir in HDFS
+  command: hdfs dfs -put {{ training_jar_dir }} {{ training_jar_dir }}
+  become: yes
+  become_user: hdfs
+
+- name: permissions for Camus jobs
+  command: hdfs dfs -chmod 777 /
+  become: yes
+  become_user: hdfs
 
 - name: Copy scripts
   copy: src="{{ item }}" dest=/home/ec2-user mode=755
@@ -84,11 +100,15 @@
   command: /home/ec2-user/onboard_concerts.sh
 
 
+- name: Hive directory
+  file: path=/var/lib/hive owner=hive group=hive mode=0777 state=directory
+
+
 - name: recreate Hive tables
   command: /home/ec2-user/create-core-hive-tables.sh {{ training_data_dir }}
 
 
 - name: Create lyrics for a user
-  command: /home/ec2-user/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics.json {{ training_data_lyrics_dir }}
+  command: /home/ec2-user/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics_index.json {{ training_data_lyrics_dir }}
   with_items:
     - "{{ users }}"
