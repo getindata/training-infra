@@ -18,3 +18,9 @@
 
 - name: install numpy
   yum: name=numpy state=latest
+
+- name: install krb5-workstation
+  yum: name=krb5-workstation state=latest
+
+- name: install krb5-libs
+  yum: name=krb5-libs state=latest
