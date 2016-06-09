@@ -1,11 +1,15 @@
 - hosts: all
-  gather_facts: false
+  gather_facts: true
   connection: paramiko
   tasks:
   - name: Disable DNS check for SSH
     action: lineinfile dest=/etc/ssh/sshd_config regexp="^#UseDNS" line="UseDNS no" state=present
   - name: Enable SSH access with password
     action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication yes" state=present
+  - name: Adding ssh client alive interval to keep sessions up
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^ClientAliveInterval" line="ClientAliveInterval 30"
+  - name: Adding ssh client alive fail count
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^ClientAliveCountMax" line="ClientAliveCountMax 2"
   - name: Restart sshd
     service: name=sshd state=restarted
   - name: Remove require tty
@@ -15,11 +19,13 @@
   - name: Remove require tty - alt
     lineinfile: regexp="requiretty" dest=/etc/sudoers.d/os_defaults state=absent
 
+
 - hosts: all
   gather_facts: false
   connection: paramiko
   roles:
     - { role: ansible-reqs, tags: [ansible-reqs] }
+
 
 - hosts: all
   vars:
