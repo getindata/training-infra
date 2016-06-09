@@ -1,2 +1,4 @@
 - name: Enabling NTP daemon
-  command: /sbin/chkconfig ntpd on && /etc/init.d/ntpd start
+  command: /usr/bin/systemctl enable ntpd
+- name: Start NTP daemon
+  command: /usr/bin/systemctl start ntpd
