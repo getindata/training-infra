@@ -39,10 +39,10 @@ create-user-hive-db() {
 
 main() {
 	user=$1
-	# add-mysql-account ${user}
+	add-mysql-account ${user}
 	add-hdfs-account ${user}
-	# drop-user-hive-db-tables ${user}
-	# create-user-hive-db ${user}
+	#drop-user-hive-db-tables ${user}
+	#create-user-hive-db ${user}
 }
 
 
