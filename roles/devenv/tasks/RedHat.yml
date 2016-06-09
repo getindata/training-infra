@@ -16,3 +16,5 @@
 - name: Install maven
   yum: pkg=apache-maven update_cache=yes
 
+- name: install numpy
+  yum: name=numpy state=latest
