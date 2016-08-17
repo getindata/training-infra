@@ -1,5 +1,8 @@
 ---
 
+- name: install the latest version of unzip
+  yum: name=unzip state=latest
+
 - name: remove local training directory and files
   file: path={{ item }} state=absent
   with_items:
@@ -26,6 +29,14 @@
 
 - name: download and unarchive streamrock.zip
   unarchive: src=streamrock.zip dest={{ training_dir }} copy=no
+
+- name: Copy scripts
+  copy: src="{{ item }}" dest=/tmp mode=755
+  with_items:
+    - create-core-hive-tables.sh
+    - concerts.tsv
+    - onboard_concerts.sh
+    - generate_lyrics_index.py
 
 
 - name: remove hdfs directory
@@ -82,22 +93,11 @@
   become: yes
   become_user: hdfs
 
+
 - name: permissions for Camus jobs
   command: hdfs dfs -chmod 777 /
   become: yes
   become_user: hdfs
-
-- name: Copy scripts
-  copy: src="{{ item }}" dest=/home/ec2-user mode=755
-  with_items:
-    - create-core-hive-tables.sh
-    - concerts.tsv
-    - onboard_concerts.sh
-    - generate_lyrics_index.py
-
-
-- name: Onboard streamrock and concert
-  command: /home/ec2-user/onboard_concerts.sh
 
 
 - name: Hive directory
@@ -105,10 +105,14 @@
 
 
 - name: recreate Hive tables
-  command: /home/ec2-user/create-core-hive-tables.sh {{ training_data_dir }}
+  command: /tmp/create-core-hive-tables.sh {{ training_data_dir }}
 
 
 - name: Create lyrics for a user
-  command: /home/ec2-user/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics_index.json {{ training_data_lyrics_dir }}
+  command: /tmp/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics_index.json {{ training_data_lyrics_dir }}
   with_items:
     - "{{ users }}"
+
+
+- name: Onboard streamrock and concert
+  command: /tmp/onboard_concerts.sh

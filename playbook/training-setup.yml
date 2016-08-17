@@ -1,45 +1,42 @@
-- hosts: all
-  roles:
-    - role: setup-nodes
-
 - hosts: edge
   vars:
     training_dir: /training
     training_data_dir: /training/data
+    training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
     users:
-      - beaver
+      - bison
+      - buffalo
+      - camel
       - cheetah
+      - cobra
       - crocodile
+      - deer
       - dolphin
+      - duck
       - eagle
+      - elephant
       - gazelle
-      - goose
+      - giraffe
+      - hippo
+      - lemur
       - leopard
       - lizard
-      - pigeon
+      - lion
+      - puma
+      - rhino
       - shark
       - snail
-#      - swan
-#      - vulture
-#      - bison
-#      - cobra
-#      - deer
-#      - duck
-#      - elephant
-#      - giraffe
-#      - hippo
-#      - lemur
-#      - lion
-#      - penguin
-#      - rhino
-#      - sloth
       - snake
       - tiger
+      - wolf
+      - zebra
   gather_facts: false
   roles:
-#   - role: mysql
-#   - role: training-libs
-#   - role: training-data
-#   - role: training-accounts
-#   - role: hue
+#     - role: ntpd
+#     - role: mysql
+#     - role: training-libs
+#     - role: training-data
+     - role: training-accounts
+#     - role: hue
+#     - role: hue-users

@@ -69,10 +69,10 @@
   easy_install: name=snakebite state=latest
 
 - name: chmod py files for snakebite
-  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b3-py2.7.egg/EGG-INFO/requires.txt mode=0755
+  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b4-py2.7.egg/EGG-INFO/requires.txt mode=0755
 
 - name: chmod py file for snakebite
-  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b3-py2.7.egg/EGG-INFO/namespace_packages.txt mode=755
+  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b4-py2.7.egg/EGG-INFO/namespace_packages.txt mode=755
 
 - name: install the latest version of unzip
   yum: name=unzip state=latest
