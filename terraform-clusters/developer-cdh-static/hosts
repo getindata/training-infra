@@ -1,0 +1,4 @@
+[edge]
+xbsd-cdh-edge-0 ansible_ssh_host=77.65.15.203
+[master]
+[slave]
