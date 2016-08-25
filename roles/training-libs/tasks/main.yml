@@ -34,19 +34,19 @@
   become_user: root
 
 - name: Copy scripts
-  copy: src="{{item}}" dest=/home/ec2-user mode=755
+  copy: src="{{item}}" dest=/tmp mode=755
   with_items:
     - install-mvn.sh
     - install-shellinthebox.sh
     - build-examples.sh
 
 - name: install-maven
-  command: /home/ec2-user/install-mvn.sh
+  command: /tmp/install-mvn.sh
   become: yes
   become_user: root
 
 - name: install-shellinthebox
-  command: /home/ec2-user/install-shellinthebox.sh
+  command: /tmp/install-shellinthebox.sh
   become: yes
   become_user: root
 
@@ -69,19 +69,19 @@
   easy_install: name=snakebite state=latest
 
 - name: chmod py files for snakebite
-  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b4-py2.7.egg/EGG-INFO/requires.txt mode=0755
+  file: path=/usr/lib/python3.4/site-packages/protobuf-3.0.0-py3.4.egg/EGG-INFO/requires.txt mode=0755
 
 - name: chmod py file for snakebite
-  file: path=/usr/lib/python2.7/site-packages/protobuf-3.0.0b4-py2.7.egg/EGG-INFO/namespace_packages.txt mode=755
+  file: path=/usr/lib/python3.4/site-packages/protobuf-3.0.0-py3.4.egg/EGG-INFO/namespace_packages.txt mode=755
 
 - name: install the latest version of unzip
   yum: name=unzip state=latest
 
 - name: clone big data repo
-  git: repo=https://github.com/getindata/BigDataTutorial.git dest=/home/ec2-user/BigDataTutorial force=yes
+  git: repo=https://github.com/getindata/BigDataTutorial.git dest=/tmp/BigDataTutorial force=yes
 
 - name: Make BigDataTutorial directory tree readable
-  file: path=/home/ec2-user/BigDataTutorial owner=ec2-user recurse=yes
+  file: path=/tmp/BigDataTutorial owner=root recurse=yes
 
 - name: build examples
-  command: /home/ec2-user/build-examples.sh
+  command: /tmp/build-examples.sh

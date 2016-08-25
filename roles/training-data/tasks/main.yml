@@ -40,7 +40,7 @@
 
 
 - name: remove hdfs directory
-  command: hdfs dfs -rm -r -f {{ training_data_dir }}
+  command: hdfs dfs -rm -r -f {{ training_data_dir }} {{ training_jar_dir }}
   become: yes
   become_user: hdfs
 
@@ -88,7 +88,7 @@
     - { file: 'concerts.json', dir: 'concert' }
 
 
-- name: upload data to trainin jar dir in HDFS
+- name: upload data to training jar dir in HDFS
   command: hdfs dfs -put {{ training_jar_dir }} {{ training_jar_dir }}
   become: yes
   become_user: hdfs
