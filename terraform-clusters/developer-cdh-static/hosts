@@ -1,4 +1,9 @@
 [edge]
-xbsd-cdh-edge-0 ansible_ssh_host=77.65.15.203
-[master]
+cdh-edge-1 ansible_ssh_host=172.17.0.4
+[master] 
+cdh-master-1 ansible_ssh_host=172.17.0.2
+cdh-master-2 ansible_ssh_host=172.17.0.3
 [slave]
+cdh-data-1 ansible_ssh_host=172.17.0.6
+cdh-data-2 ansible_ssh_host=172.17.0.7
+cdh-data-3 ansible_ssh_host=172.17.0.8
