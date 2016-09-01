@@ -41,3 +41,5 @@
      - role: training-accounts
 #     - role: hue
 #     - role: hue-users
+     - role: hue-users-cm
+
