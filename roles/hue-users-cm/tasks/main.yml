@@ -1,0 +1,15 @@
+---
+# tasks file for hue-users-cm
+
+
+- name: Copy script to create users in HUE
+  copy: src="{{item}}" dest=/tmp mode=755
+  with_items:
+    - create-user-in-hue-cm.sh
+
+
+
+- name: Create user in HUE
+  command: /tmp/create-user-in-hue.sh {{ item }}
+  with_items:
+    - "{{ users }}"
