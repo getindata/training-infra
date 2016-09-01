@@ -57,7 +57,7 @@ main() {
 	suffix=$2
 	set-unix-password ${user} ${suffix}
 	add-mysql-account ${user} ${suffix}
-	add-hdfs-account ${user} ${suffix}
+	add-hdfs-account ${user}
 
 	#drop-user-hive-db-tables ${user}
 	#create-user-hive-db ${user}
