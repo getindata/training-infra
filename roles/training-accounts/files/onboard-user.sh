@@ -2,7 +2,8 @@
 
 generate-user-password() {
 	user=$1
-	echo "${user}$(date +%d%m)"
+	suffix=$2
+	echo "${user}$(suffix)"
 }
 
 set-unix-password() {
@@ -51,7 +52,8 @@ create-user-hive-db() {
 
 main() {
 	user=$1
-	set-unix-password ${user}
+	suffix=$2
+	set-unix-password ${user} ${suffix}
 	add-mysql-account ${user}
 	add-hdfs-account ${user}
 
