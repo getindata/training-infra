@@ -8,14 +8,16 @@ generate-user-password() {
 
 set-unix-password() {
 	user=$1
-	password=$(generate-user-password ${user})
+	suffix=$2
+	password=$(generate-user-password ${user} ${suffix})
 	echo ${user}:${password} | sudo chpasswd
 }
 
 # TODO; run this on the edgenode
 add-mysql-account() {
 	user=$1
-	password=$(generate-user-password ${user})
+	suffix=$2
+	password=$(generate-user-password ${user} ${suffix})
 	mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO '${user}'@'%' identified by '${password}';"
 	mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO '${user}'@'localhost' identified by '${password}';"
 	mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO '${user}'@'$(hostname)' identified by '${password}';"
@@ -54,8 +56,8 @@ main() {
 	user=$1
 	suffix=$2
 	set-unix-password ${user} ${suffix}
-	add-mysql-account ${user}
-	add-hdfs-account ${user}
+	add-mysql-account ${user} ${suffix}
+	add-hdfs-account ${user} ${suffix}
 
 	#drop-user-hive-db-tables ${user}
 	#create-user-hive-db ${user}
