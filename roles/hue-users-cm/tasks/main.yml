@@ -10,6 +10,8 @@
 
 
 - name: Create user in HUE
-  command: /tmp/create-user-in-hue.sh {{ item }}
+  command: /tmp/create-user-in-hue.sh {{ item }} {{ item }} {{ item }}
   with_items:
     - "{{ users }}"
+    - "{{ password_suffix }}"
+    - "{{ hue_db_password }}"
