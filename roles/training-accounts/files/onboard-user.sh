@@ -3,7 +3,7 @@
 generate-user-password() {
 	user=$1
 	suffix=$2
-	echo "${user}$(suffix)"
+	echo "${user}${suffix}"
 }
 
 set-unix-password() {
