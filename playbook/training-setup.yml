@@ -1,6 +1,7 @@
 - hosts: edge
   vars:
     password_suffix: 2508
+    hue_db_password: DtyaqT5qvz
     training_dir: /training
     training_data_dir: /training/data
     training_data_lyrics_dir: /training/data/lyrics
@@ -38,8 +39,8 @@
 #     - role: mysql
 #     - role: training-libs
 #     - role: training-data
-     - role: training-accounts
+#     - role: training-accounts
 #     - role: hue
 #     - role: hue-users
-     - role: hue-users-cm
+      - role: hue-users-cm
 
