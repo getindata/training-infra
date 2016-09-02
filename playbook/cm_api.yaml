@@ -1,6 +1,7 @@
 - hosts: 127.0.0.1
   connection: local
-  cloudera_ini: clouderaconfig.ini
+  vars:
+    cloudera_ini: clouderaconfig.ini
   roles:
-        -role: install_cm_api_libs
-#        -role: get_hue_db_password
+    -role: install_cm_api_libs
+#   -role: get_hue_db_password
