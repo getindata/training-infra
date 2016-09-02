@@ -30,7 +30,7 @@ for service in CLUSTER.get_all_services():
             if 'database_password' in value:
                 hue_db_pass = str(value['database_password']).split(' ')[-1]
 
-cfgfile = open('clouderaconfig.ini', 'w')
-CONFIG.set('CM','hue_db_pass',hue_db_pass)
-CONFIG.write(cfgfile)
-cfgfile.close()
+hue_db_pass_file = open('hue_db_pass', 'w')
+hue_db_pass_file.write(hue_db_pass)
+hue_db_pass_file.close()
+
