@@ -86,5 +86,3 @@
 - name: build examples
   command: /tmp/build-examples.sh
 
-- name: install cm_api
-  pip: name=cm_api state=latest
