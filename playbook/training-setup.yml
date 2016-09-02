@@ -2,6 +2,7 @@
   vars:
     password_suffix: 2508
     training_dir: /training
+    REMEMBERT ABOUT DB PASS
     training_data_dir: /training/data
     training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
