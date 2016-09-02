@@ -22,9 +22,15 @@ for cluster in api.get_all_clusters():
     #print c.name
     CLUSTER = cluster
 
+hue_db_pass = ''
 
 for service in CLUSTER.get_all_services():
     if service.name == service_name:
         for value in service.get_config(view='full'):
             if 'database_password' in value:
-                print value['database_password']
+                hue_db_pass = str(value['database_password']).split(' ')[-1]
+
+cfgfile = open('clouderaconfig.ini', 'w')
+CONFIG.set('CM','hue_db_pass',hue_db_pass)
+CONFIG.write(cfgfile)
+cfgfile.close()
