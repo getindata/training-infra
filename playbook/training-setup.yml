@@ -2,7 +2,7 @@
   vars:
     password_suffix: 2508
     training_dir: /training
-    REMEMBERT ABOUT DB PASS
+    hue_db_password: "{{ lookup('file', 'hue_db_pass') }}"
     training_data_dir: /training/data
     training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
@@ -42,6 +42,8 @@
 #     - role: training-accounts
 #     - role: hue
 #     - role: hue-users
+
+# Please run cm_api playbook role get_hue_db_password before running this one
       - role: hue-users-cm
 
 
