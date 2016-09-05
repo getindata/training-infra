@@ -30,7 +30,7 @@ for service in CLUSTER.get_all_services():
             if 'database_password' in value:
                 hue_db_pass = str(value['database_password']).split(' ')[-1]
 
-hue_db_pass_file = open('hue_db_pass', 'w')
+hue_db_pass_file = open('hue-db-pass', 'w')
 hue_db_pass_file.write(hue_db_pass)
 hue_db_pass_file.close()
 
