@@ -1,5 +1,5 @@
 - hosts: localhost
   connection: local
   roles:
-     - role: install-cm-api-libs
+     - role: cm-api-libs
      - role: get-hue-db-password
