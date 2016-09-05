@@ -43,7 +43,7 @@
 #     - role: hue
 #     - role: hue-users
 
-# Please run cm_api playbook role get_hue_db_password before running this one
+# Please run cm_api playbook role in local mode to get_hue_db_password before running this one.
       - role: hue-users-cm
 
 

@@ -1,2 +1,5 @@
 ---
-# tasks file for get-hue-db-password
+
+- name: Get HUE database password
+  command: get_hue_db_pass.sh
+
