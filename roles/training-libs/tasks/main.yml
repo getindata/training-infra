@@ -85,3 +85,4 @@
 
 - name: build examples
   command: /tmp/build-examples.sh
+
