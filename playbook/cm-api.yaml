@@ -3,4 +3,8 @@
   roles:
      - role: cm-api-libs
      - role: get-hue-db-password
-     - role: install-kafka
+#     - role: install-kafka
+#     - role: enable-hdfs-ha
+
+#     Please edit which services will be configured in role configuration
+#     - role: service-config-changes
