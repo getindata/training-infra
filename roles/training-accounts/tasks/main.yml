@@ -30,9 +30,10 @@
 
 
 - name: Onboard a user
-  command: /tmp/onboard-user.sh {{ item }}
-  with_items:
+  command: /tmp/onboard-user.sh {{ item[0] }} {{ item[1] }}
+  with_nested:
     - "{{ users }}"
+    - "{{ password_suffix }}"
 
 
 - name: Check if server logs are available
