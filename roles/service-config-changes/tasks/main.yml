@@ -1,0 +1,7 @@
+---
+
+- name: Configure yarn
+  command: chdir={{ role_path }}/files/ python configure_yarn.py
+
+- name: Configure hbase
+  command: chdir={{ role_path }}/files/ python configure_hbase.py
