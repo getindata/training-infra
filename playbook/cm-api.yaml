@@ -1,10 +1,14 @@
 - hosts: localhost
   connection: local
+# scripts needs to placed in service-config-changes/files
+  configuration_scripts_to_run:
+    - configure_hbase.py
+    - configure_yarn.py
+
+
   roles:
      - role: cm-api-libs
      - role: get-hue-db-password
 #     - role: install-kafka
 #     - role: enable-hdfs-ha
-
-#     Please edit which services will be configured in role configuration
 #     - role: service-config-changes
