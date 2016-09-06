@@ -3,3 +3,4 @@
   roles:
      - role: cm-api-libs
      - role: get-hue-db-password
+     - role: install-kafka
