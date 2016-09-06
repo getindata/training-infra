@@ -1,7 +1,7 @@
 ---
 
-- name: Configure yarn
-  command: chdir={{ role_path }}/files/ python configure_yarn.py
 
-- name: Configure hbase
-  command: chdir={{ role_path }}/files/ python configure_hbase.py
+- name: Run configuration scripts
+  command: chdir={{ role_path }}/files/ python "{{ item }}"
+  with_items:
+    - {{ configuration_scripts_to_run }}
