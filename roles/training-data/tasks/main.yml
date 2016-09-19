@@ -88,6 +88,10 @@
     - { file: 'concerts.json', dir: 'concert' }
 
 
+- name: Onboard streamrock and concert
+  command: /tmp/onboard_concerts.sh
+
+
 - name: upload data to trainin jar dir in HDFS
   command: hdfs dfs -put {{ training_jar_dir }} {{ training_jar_dir }}
   become: yes
@@ -112,7 +116,3 @@
   command: /tmp/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics_index.json {{ training_data_lyrics_dir }}
   with_items:
     - "{{ users }}"
-
-
-- name: Onboard streamrock and concert
-  command: /tmp/onboard_concerts.sh

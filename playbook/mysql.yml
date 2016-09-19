@@ -1,10 +1,4 @@
-- hosts: edge
-  gather_facts: false
-  roles:
-   - role: mysql
-
 - hosts: master
   gather_facts: false
   roles:
    - role: mysql
-
