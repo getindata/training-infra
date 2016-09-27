@@ -15,7 +15,7 @@ fi
 check_error_code
 
 echo "Listing Kafka topics and creating"
-kafka-topics --list --zookeeper $ZOOKEEPER | grep lion
+#kafka-topics --list --zookeeper $ZOOKEEPER | grep lion
       if [ "`kafka-topics --list --zookeeper $ZOOKEEPER | grep lion`" == "lion" ]; then
     		kafka-topics --delete --topic=lion --zookeeper $ZOOKEEPER
       fi
@@ -23,7 +23,7 @@ kafka-topics --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions
 check_error_code
 
 echo "Preparing script for a test run"
-LOCAL_IP=$(ping -c 1 $(hostname) | head -n 1 | awk '{print$3}' | cut -d"(" -f 2 | cut -d")" -f 1)
+LOCAL_IP=$(ping -c 1 $(hosczytname) | head -n 1 | awk '{print$3}' | cut -d"(" -f 2 | cut -d")" -f 1)
 cd /var/lib/hadoop-hdfs/scripts/
 sed -i 's/localhost/$LOCAL_IP/' /tmp/kafka_test.py
 check_error_code
