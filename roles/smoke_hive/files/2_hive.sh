@@ -18,9 +18,9 @@ echo "Drop table if exist"
 hive -e "DROP TABLE lion.logs;"
 check_error_code
 
-#echo "Hive create database"
-#hive -e "CREATE DATABASE lion;"
-#check_error_code
+echo "Hive create database"
+hive -e "CREATE DATABASE lion;"
+check_error_code
 
 echo "Hive create table"
 hive -e "CREATE TABLE \`lion.logs\`(
