@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. common.sh
+. /tmp/common.sh
 
 echo "Downloading StreamRock log file"
 wget -q https://dl.dropboxusercontent.com/u/16026724/logs/lion.tsv -O /tmp/lion.tsv
