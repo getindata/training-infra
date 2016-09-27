@@ -12,4 +12,5 @@
   become_user: hdfs
   register: out
   command: /tmp/1_hdfs.sh
-  debug: var=out.stdout_lines
+
+- debug: var=out.stdout_lines
