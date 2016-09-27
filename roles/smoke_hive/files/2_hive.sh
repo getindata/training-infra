@@ -19,6 +19,9 @@ hive -e "DROP TABLE lion.logs;"
 check_error_code
 
 echo "Hive create database"
+      if [ "`hive -e 'show databases;' | grep lion`" == "lion" ]; then
+    		hive -e "DROP DATABASE IF EXISTS lion;"
+      fi
 hive -e "CREATE DATABASE lion;"
 check_error_code
 
