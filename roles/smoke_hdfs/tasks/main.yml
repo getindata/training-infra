@@ -1,0 +1,10 @@
+---
+
+- name: Copy script to test Hdfs read/write operations
+  copy: src="{{item}}" dest=/tmp mode=755
+  with_items:
+    - create-user-in-hue.sh
+
+
+- name: Test hdfs read/write operations
+  command: /tmp/1_hdfs.sh
