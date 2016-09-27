@@ -1,2 +1,16 @@
 ---
-# tasks file for smoke_kafka
+
+- name: Copy scripts to test Kafka
+  copy: src="{{item}}" dest=/tmp mode=755
+  with_items:
+    - 4_kafka.sh
+    - common.sh
+    - kafka_test.py
+
+- name: Test Kafka operations
+  become: yes
+  become_user: hdfs
+  register: out
+  command: /tmp/4_kafka.sh
+
+- debug: var=out.stdout_lines
