@@ -1,9 +1,11 @@
 - hosts: localhost
   connection: local
-# scripts needs to placed in service-config-changes/files
-  configuration_scripts_to_run:
-    - configure_hbase.py
-    - configure_yarn.py
+  vars:
+
+  # scripts needs to placed in service-config-changes/files
+    configuration_scripts_to_run:
+      - configure_hbase.py
+      - configure_yarn.py
 
 
   roles:
