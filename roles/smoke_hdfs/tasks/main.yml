@@ -7,4 +7,6 @@
 
 
 - name: Test hdfs read/write operations
+  become: yes
+  become_user: hdfs
   command: /tmp/1_hdfs.sh
