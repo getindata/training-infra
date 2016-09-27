@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. common.sh
+. /tmp/common.sh
 
 echo "Checking if HDFS is readable"
 hadoop fs -ls / >> /dev/null
