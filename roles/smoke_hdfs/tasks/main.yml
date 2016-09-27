@@ -10,4 +10,6 @@
 - name: Test hdfs read/write operations
   become: yes
   become_user: hdfs
+  register: out
   command: /tmp/1_hdfs.sh
+  debug: var=out.stdout_lines
