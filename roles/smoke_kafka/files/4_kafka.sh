@@ -2,7 +2,7 @@
 
 . /tmp/common.sh
 
-export ZOOKEEPER=$(hostname):2181
+export ZOOKEEPER=$(hostname):2181/kafka
 ## FOR HDP needs to be added /kafka , maybe bash if needed
 ##export ZOOKEEPER=$(hostname):2181/kafka
 export KAFKA=$(hostname):9092
