@@ -8,7 +8,7 @@ class Producer(threading.Thread):
     daemon = True
 
     def run(self):
-        producer = KafkaProducer(bootstrap_servers='136.243.178.19:9092')
+        producer = KafkaProducer(bootstrap_servers=localhost)
 
         while True:
             producer.send('lion', b"test")
@@ -20,7 +20,7 @@ class Consumer(threading.Thread):
     daemon = True
 
     def run(self):
-        consumer = KafkaConsumer(bootstrap_servers='136.243.178.19:9092',
+        consumer = KafkaConsumer(bootstrap_servers=localhost,
                                  auto_offset_reset='earliest')
         consumer.subscribe(['lion'])
 
