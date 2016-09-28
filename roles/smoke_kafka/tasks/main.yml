@@ -14,6 +14,3 @@
   command: /tmp/4_kafka.sh
 
 - debug: var=out.stdout_lines
-
-- name: install python-kafka libs
-  pip: name=kafka-python
