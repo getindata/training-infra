@@ -1,0 +1,4 @@
+---
+
+- name: Install kafks
+  command: chdir={{ role_path }}/files/ python install_kafka.py
