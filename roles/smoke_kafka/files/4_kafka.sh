@@ -25,7 +25,7 @@ check_error_code
 echo "Preparing script for a test run"
 LOCAL_IP=$(ping -c 1 $(hostname) | head -n 1 | awk '{print$3}' | cut -d"(" -f 2 | cut -d")" -f 1)
 cd /tmp
-sed -i 's/localhost/$LOCAL_IP/' /tmp/kafka_test.py
+sed -i "s/localhost/$LOCAL_IP/" /tmp/kafka_test.py
 check_error_code
 
 echo "Running tests"

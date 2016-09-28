@@ -1,7 +1,7 @@
 ---
 
 - name: Copy scripts to test Kafka
-  copy: src="{{item}}" dest=/tmp mode=777
+  copy: src="{{item}}" dest=/tmp mode=777 #the file permission needs to be 777 because hdfs user needs to be able to sed changes into kafka_test.py
   with_items:
     - 4_kafka.sh
     - common.sh
