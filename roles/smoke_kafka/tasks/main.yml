@@ -1,7 +1,7 @@
 ---
 
 - name: Copy scripts to test Kafka
-  copy: src="{{item}}" dest=/tmp mode=755
+  copy: src="{{item}}" dest=/tmp mode=777 #needs to be 777 for user hdfs to execute
   with_items:
     - 4_kafka.sh
     - common.sh
