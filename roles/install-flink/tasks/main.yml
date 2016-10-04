@@ -1,8 +1,4 @@
 ---
-- name: Single node Flink setup
-  hosts: edge
-
-  tasks:
     become: yes
     become_user: hdfs
   - name: Create directory for flink
