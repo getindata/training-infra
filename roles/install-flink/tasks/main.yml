@@ -1,0 +1,20 @@
+---
+- name: Single node Flink setup
+  hosts: edge
+
+  tasks:
+    become: yes
+    become_user: hdfs
+  - name: Create directory for flink
+    file: path=~/flink state=directory
+  - name: Download and unpack flink archive
+    unarchive: src=http://www-eu.apache.org/dist/flink/flink-1.1.2/flink-1.1.2-bin-hadoop26-scala_2.11.tgz dest=~/flink copy=no
+  - name: Start flink locally
+    command: ~/flink/flink-1.1.2/bin/start-local.sh
+    async: 45
+    poll: 0
+
+
+#Check flink webservice
+  - wait_for: timeout=10
+  - action: uri url=http://localhost:8081
