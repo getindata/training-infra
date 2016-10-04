@@ -1,14 +1,19 @@
 ---
-    become: yes
-    become_user: hdfs
+
   - name: Create directory for flink
     file: path=~/flink state=directory
+    become: yes
+    become_user: hdfs
   - name: Download and unpack flink archive
     unarchive: src=http://www-eu.apache.org/dist/flink/flink-1.1.2/flink-1.1.2-bin-hadoop26-scala_2.11.tgz dest=~/flink copy=no
+    become: yes
+    become_user: hdfs
   - name: Start flink locally
     command: ~/flink/flink-1.1.2/bin/start-local.sh
     async: 45
     poll: 0
+    become: yes
+    become_user: hdfs
 
 
 #Check flink webservice
