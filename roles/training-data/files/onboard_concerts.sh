@@ -9,6 +9,11 @@ mysql -p'root' -e "load data local infile '/tmp/concerts.tsv' \
                 into table streamrock.concert fields terminated by '\t' lines terminated by '\n' \
                 (id, artist, day, city, location)"
 
+mysql -p'root' -e "CREATE USER IF NOT EXISTS 'admin'@'%' IDENTIFIED BY 'admin'"
+mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' identified by 'admin';"
+mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'$(hostname)' identified by 'admin';"
+mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' identified by 'admin';"
+
 mysql -p'root' -e "CREATE USER IF NOT EXISTS 'ec2-user'@'%' IDENTIFIED BY 'ec2-user'"
 mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO 'ec2-user'@'%' identified by 'ec2-user';"
 mysql -p'root' -e "GRANT ALL PRIVILEGES ON *.* TO 'ec2-user'@'$(hostname)' identified by 'ec2-user';"
