@@ -1,49 +1,67 @@
 - hosts: edge
   vars:
     password_suffix: 2508
-    training_dir: /training
     hue_db_password: "{{ lookup('file', 'hue_db_pass') }}"
+    training_dir: /training
     training_data_dir: /training/data
     training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
     users:
-      - bison
-      - buffalo
-      - camel
-      - cheetah
-      - cobra
-      - crocodile
-      - deer
-      - dolphin
-      - duck
-      - eagle
-      - elephant
-      - gazelle
-      - giraffe
-      - hippo
-      - lemur
-      - leopard
-      - lizard
-      - lion
-      - puma
-      - rhino
-      - shark
-      - snail
-      - snake
-      - tiger
-      - wolf
-      - zebra
+      -aksolotl
+      -armadillo
+      -bat
+      -beaver
+      -bison
+      -buffalo
+      -camel
+      -cheetah
+      -cobra
+      -crocodile
+      -deer
+      -dolphin
+      -duck
+      -eagle
+      -elephant
+      -fenek
+      -flamingo
+      -fox
+      -gazelle
+      -giraffe
+      -gorilla
+      -hippo
+      -kangaroo
+      -koala
+      -lama
+      -lemur
+      -leopard
+      -lizard
+      -lion
+      -maskonur
+      -owl
+      -parrot
+      -penguin
+      -pika
+      -puma
+      -rhino
+      -shark
+      -snail
+      -snake
+      -swan
+      -squirrel
+      -tiger
+      -topi
+      -turtle
+      -wolf
+      -vulture
+      -zebra
   gather_facts: false
   roles:
-#     - role: ntpd
-#     - role: mysql
-#     - role: training-libs
-#     - role: training-data
-#     - role: training-accounts
+     - role: ntpd
+     - role: mysql
+     - role: training-libs
+     - role: training-data
+     - role: training-accounts
 #     - role: hue
 #     - role: hue-users
-
 # Please run cm_api playbook role in local mode to get_hue_db_password before running this one.
-      - role: hue-users-cm
-
-
+#     - role: hue-users-cm
