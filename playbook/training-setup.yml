@@ -1,6 +1,8 @@
 - hosts: edge
   vars:
+    password_suffix: 2508
     training_dir: /training
+    hue_db_password: "{{ lookup('file', 'hue_db_pass') }}"
     training_data_dir: /training/data
     training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
@@ -37,6 +39,11 @@
 #     - role: mysql
 #     - role: training-libs
 #     - role: training-data
-     - role: training-accounts
+#     - role: training-accounts
 #     - role: hue
 #     - role: hue-users
+
+# Please run cm_api playbook role in local mode to get_hue_db_password before running this one.
+      - role: hue-users-cm
+
+

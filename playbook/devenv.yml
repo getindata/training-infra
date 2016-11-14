@@ -1,6 +1,5 @@
 - hosts: all
   roles:
-    - { role: ansiblebit.oracle-java, tags: ['java'] }
     - { role: epel }
     - { role: devenv, tags: ['devenv'] }
 
