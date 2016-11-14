@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mysqladmin -u root password root
-
 mysql -p'root' -e "create database if not exists streamrock"
 mysql -p'root' -e "drop table if exists streamrock.concert"
 mysql -p'root' -e "CREATE TABLE streamrock.concert \

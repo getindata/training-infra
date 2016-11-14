@@ -40,7 +40,7 @@
 
 
 - name: remove hdfs directory
-  command: hdfs dfs -rm -r -f {{ training_data_dir }}
+  command: hdfs dfs -rm -r -f {{ training_data_dir }} {{ training_jar_dir }}
   become: yes
   become_user: hdfs
 
@@ -61,6 +61,7 @@
     - "{{ training_data_dir }}/airport"
     - "{{ training_data_dir }}/lyrics"
     - "{{ training_data_dir }}/concert"
+    - "{{ training_data_dir }}/audit"
     - "/incoming/logs/upload"
     - "/incoming/mysql/concert"
 
@@ -84,15 +85,21 @@
     - { file: 'wordhappiness.tsv', dir: 'wordhappiness' }
     - { file: 'playedWithMetadata.tsv', dir: 'playedWithMetadata' } 
     - { file: 'lyrics.avro', dir: 'lyrics' }
+    - { file: 'lyrics.avro', dir: 'audit' }
     - { file: 'user.parquet', dir: '.' }
     - { file: 'concerts.json', dir: 'concert' }
 
+- name: changing ownership for audit/lyrics.avro
+  command: hdfs dfs -chown hdfs:bird {{ training_data_dir }}/audit/lyrics.avro
+  become: yes
+  become_user: hdfs
 
-- name: Onboard streamrock and concert
-  command: /tmp/onboard_concerts.sh
+- name: changing permissions for audit/lyrics.avro
+  command: hdfs dfs -chmod 640 {{ training_data_dir }}/audit/lyrics.avro
+  become: yes
+  become_user: hdfs
 
-
-- name: upload data to trainin jar dir in HDFS
+- name: upload data to training jar dir in HDFS
   command: hdfs dfs -put {{ training_jar_dir }} {{ training_jar_dir }}
   become: yes
   become_user: hdfs
@@ -116,3 +123,7 @@
   command: /tmp/generate_lyrics_index.py {{ item }} {{ training_data_dir }}/song.tsv {{ training_data_dir }}/lyrics_index.json {{ training_data_lyrics_dir }}
   with_items:
     - "{{ users }}"
+
+
+- name: Onboard streamrock and concert
+  command: /tmp/onboard_concerts.sh
