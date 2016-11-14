@@ -104,15 +104,14 @@
       -  wombat
       -  woodchuck
       -  zebra
- 
- gather_facts: false
+  gather_facts: false
   roles:
-     - role: ntpd
-     - role: mysql
-     - role: training-libs
+#     - role: ntpd
+#     - role: mysql
+#     - role: training-libs
      - role: training-data
-     - role: training-accounts
-     - role: hue
-     - role: hue-users
+#     - role: training-accounts
+#     - role: hue
+#     - role: hue-users
 # Please run cm_api playbook role in local mode to get_hue_db_password before running this one.
-     - role: hue-users-cm
+#     - role: hue-users-cm
