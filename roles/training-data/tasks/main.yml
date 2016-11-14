@@ -72,7 +72,7 @@
   become_user: hdfs
 
 - name: chmod /user/hive/warehouse
-  command: hdfs dfs -chmod -R 777 /user/hive/warehouse
+  command: hdfs dfs -chmod 777 /user/hive/warehouse
 
 - name: upload data to trainig data dir in HDFS
   command: hdfs dfs -put {{ training_data_dir }}/{{ item.file }} {{ training_data_dir }}/{{ item.dir }}
