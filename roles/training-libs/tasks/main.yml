@@ -65,6 +65,12 @@
 - name: install the latest version of python-setuptools-devel
   yum: name=python-setuptools-devel state=latest
 
+- name: install python-pip
+  yum: name=python-pip
+
+- name: install kafka-python libs
+  pip: name=kafka-python
+
 - name: install the latest version of snakebite
   easy_install: name=snakebite state=latest
 
