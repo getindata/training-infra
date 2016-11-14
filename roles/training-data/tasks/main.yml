@@ -54,6 +54,7 @@
     - "{{ training_data_dir }}/streamsimple"
     - "{{ training_data_dir }}/stream"
     - "{{ training_data_dir }}/stream-2014-01-01"
+    - "{{ training_data_dir }}/logs-2014-01-01"
     - "{{ training_data_dir }}/track"
     - "{{ training_data_dir }}/wordhappiness"
     - "{{ training_data_dir }}/playedWithMetadata"
@@ -85,6 +86,7 @@
     - { file: 'played.tsv', dir: 'streamsimple' }
     - { file: 'stream.tsv', dir: 'stream' }
     - { file: 'stream.tsv.2014-01-01', dir: 'stream-2014-01-01' }
+    - { file: 'logs.tsv.2014-01-01', dir: 'logs-2014-01-01' }
     - { file: 'song.tsv', dir: 'track' }
     - { file: 'wordhappiness.tsv', dir: 'wordhappiness' }
     - { file: 'playedWithMetadata.tsv', dir: 'playedWithMetadata' } 
