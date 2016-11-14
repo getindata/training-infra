@@ -86,7 +86,7 @@
     - { file: 'played.tsv', dir: 'streamsimple' }
     - { file: 'stream.tsv', dir: 'stream' }
     - { file: 'stream.tsv.2014-01-01', dir: 'stream-2014-01-01' }
-    - { file: 'logs.tsv.2014-01-01', dir: 'logs-2014-01-01' }
+    - { file: 'logs.2014-01-01.tsv', dir: 'logs-2014-01-01' }
     - { file: 'song.tsv', dir: 'track' }
     - { file: 'wordhappiness.tsv', dir: 'wordhappiness' }
     - { file: 'playedWithMetadata.tsv', dir: 'playedWithMetadata' } 
