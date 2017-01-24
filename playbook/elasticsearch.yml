@@ -1,9 +1,9 @@
-- hosts: slave
+- hosts: all
   gather_facts: true
   roles:
    - role: elasticsearch
 
-- hosts: slave
+- hosts: all
   gather_facts: false
   roles:
    - role: elasticsearch-config

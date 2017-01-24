@@ -11,14 +11,19 @@
 - name: adding user kibana
   user: name=kibana comment="kibana" group=kibana
 
-- name: downloading kibana 4.5.0
-  command: wget https://download.elastic.co/kibana/kibana/kibana-4.5.0-linux-x64.tar.gz -O /tmp/kibana-4.5.0-linux-x64.tar.gz
+- name: downloading kibana 5.1.2
+  command: wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.2-linux-x86_64.tar.gz -O /tmp/kibana-5.1.2-linux-x64.tar.gz
 
-- name: unpacking kibana to /opt/kibana-4.5.0-linux-x64
-  command: tar -zxf /tmp/kibana-4.5.0-linux-x64.tar.gz -C /opt
+- name: unpacking kibana to /opt/kibana-5.1.2-linux-x86_64
+  command: tar -zxf /tmp/kibana-5.1.2-linux-x64.tar.gz -C /opt
+
+- name: copying configuration file 
+  copy: src="{{item}}" dest=/opt/kibana-5.1.2-linux-x86_64/config/
+  with_items:
+    - kibana.yml 
 
 - name: changing ownership of kibana homedir to kibana user
-  file: path=/opt/kibana-4.5.0-linux-x64 state=directory owner=kibana group=kibana mode=0755 recurse=yes
+  file: path=/opt/kibana-5.1.2-linux-x86_64 state=directory owner=kibana group=kibana mode=0755 recurse=yes
 
 - name: copying supervisor includes for Kibana
   copy: src="{{item}}" dest=/etc/supervisor/conf.d/ mode=755
@@ -27,6 +32,5 @@
 
 - name: starting/restarting supervisord
   service: name=supervisord state=restarted
-  async: 45
-  poll: 0
+  
 

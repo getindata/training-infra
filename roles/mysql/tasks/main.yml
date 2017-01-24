@@ -1,4 +1,9 @@
 ---
+- name: Copy script to install hue
+  copy: src="{{item}}" dest=/tmp/ mode=755
+  with_items:
+    - configure-hue-db.sh
+
 - name: install mysql client
   yum: name=mysql state=latest
 
@@ -22,3 +27,13 @@
 
 - name: start mysql server
   service: name=mysqld state=started
+
+- name: Configure HUE db
+  command: /tmp/configure-hue-db.sh
+  become: yes
+  become_user: root
+
+- name: copy hue.ini config file 
+  copy: src="{{item}}" dest=/etc/hue/conf owner=root group=root mode=755
+  with_items:
+    - hue.ini

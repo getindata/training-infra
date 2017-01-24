@@ -3,13 +3,13 @@
 cm_status_file=/tmp/cm-setup.log
 
 # install & run cm
-CDH_VERSION=5.5.2
+CDH_VERSION=5.8.3
 if [ $# -eq 1 ]; then
   CDH_VERSION=$1
 fi
 
 echo "About to install CM ${CDH_VERSION}" > ${cm_status_file}
-wget -O /etc/yum.repos.d/cloudera-manager.repo http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/cloudera-manager.repo
+wget -O /etc/yum.repos.d/cloudera-manager.repo http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo
 sed -i "s/cm\/.*\//cm\/$CDH_VERSION\//" /etc/yum.repos.d/cloudera-manager.repo
 yum clean all
 

@@ -24,7 +24,7 @@ for entry in CONFIG.items("Hbase_config"):
 
 print configuration
 
-api = ApiResource(cm_host, username=username, password=password)
+api = ApiResource(cm_host,version='13', username=username, password=password)
 
 #Get cluster
 CLUSTER = None

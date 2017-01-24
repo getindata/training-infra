@@ -2,15 +2,15 @@
 
 set -x
 
-USERNAME=ec2-user
+USERNAME=piotrektt
 
 STEP=$1
 TERRAFORM_CONF_DIR=$2
 
-PRIVATE_KEY=${TERRAFORM_CONF_DIR}/oregon.pem
-TERRAFORM_PLAN=${TERRAFORM_CONF_DIR}/config.tf.plan
-TERRAFORM_STATE=${TERRAFORM_CONF_DIR}/terraform.tfstate
-HOSTS_FILE=${TERRAFORM_CONF_DIR}/hosts
+PRIVATE_KEY=${TERRAFORM_CONF_DIR}pbatgetindata
+TERRAFORM_PLAN=config.tf.plan
+TERRAFORM_STATE=terraform.tfstate
+HOSTS_FILE=${TERRAFORM_CONF_DIR}hosts
 
 
 display_usage() { 
@@ -28,12 +28,13 @@ if [[ ! -f ${PRIVATE_KEY} ]] ; then
 fi
 
 if [ "${STEP}" == "aws" ] ; then
-    terraform plan -out=${TERRAFORM_PLAN} ${TERRAFORM_CONF_DIR}
-    terraform apply -state=${TERRAFORM_STATE} ${TERRAFORM_CONF_DIR}
+    cd ${TERRAFORM_CONF_DIR}
+    terraform plan -out=${TERRAFORM_PLAN} 
+    terraform apply -state=${TERRAFORM_STATE} 
 fi
 
 # TODO: write the output file '${HOSTS_FILE}' to the directory where terraform config is
-./get_aws_ips_from_terraform.py -i ${TERRAFORM_CONF_DIR}
+#./get_aws_ips_from_terraform.py -i ${TERRAFORM_CONF_DIR}
 
 if [ "${STEP}" == "mysql" ] ; then
     ansible-playbook playbook/mysql.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}

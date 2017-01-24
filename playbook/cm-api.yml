@@ -13,4 +13,4 @@
      - role: get-hue-db-password
 #     - role: install-kafka
 #     - role: enable-hdfs-ha
-#     - role: service-config-changes
+     - role: service-config-changes

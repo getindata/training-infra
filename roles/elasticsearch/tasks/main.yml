@@ -11,14 +11,14 @@
 - name: adding user elasticsearch
   user: name=elasticsearch comment="Elastic Search" group=elasticsearch
 
-- name: downloading elasticsearch 2.3.1
-  command: wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/zip/elasticsearch/2.3.1/elasticsearch-2.3.1.zip -O /tmp/elasticsearch-2.3.1.zip
+- name: downloading elasticsearch 5.1.2
+  command: wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.2.zip -O /tmp/elasticsearch-5.1.2.zip
 
-- name: unpacking elasticsearch to /opt/elasticsearch-2.3.1
-  command: unzip -u /tmp/elasticsearch-2.3.1.zip -d /opt
+- name: unpacking elasticsearch to /opt/elasticsearch-5.1.2
+  command: unzip -u /tmp/elasticsearch-5.1.2.zip -d /opt
 
 - name: changing ownership of elasticsearch homedir to elasticsearch user
-  file: path=/opt/elasticsearch-2.3.1 state=directory owner=elasticsearch group=elasticsearch mode=0755 recurse=yes
+  file: path=/opt/elasticsearch-5.1.2 state=directory owner=elasticsearch group=elasticsearch mode=0755 recurse=yes
 
 - name: copying supervisor includes for Elastic Search
   copy: src="{{item}}" dest=/etc/supervisor/conf.d/ mode=755
@@ -27,5 +27,4 @@
 
 - name: starting/restarting supervisord
   service: name=supervisord state=restarted
-  async: 45
-  poll: 0
+  

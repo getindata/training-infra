@@ -1,14 +1,14 @@
 - hosts: all
   gather_facts: false
-  roles:
-    - role: users
-      users_admin_sudo_password: false
-      users: 
-        - name: kzarzycki
-          uid: 10000
-          is_admin: true
-        - name: cdh
-          uid: 10001
-          is_admin: true
-          password: "$6$g0Faz/hHO$iVOy/keiRcCRmMmTN3G0FOCdKdWHDZqBzbDKX4idXSeibGnaSyiTDIiy.RCN2ay.ZIxqp40DKURDO/Pxbcqak1"
- 
+  tasks:
+    - lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+    - user:
+        name: cdh
+        uid: 10001
+        password: "$6$g0Faz/hHO$iVOy/keiRcCRmMmTN3G0FOCdKdWHDZqBzbDKX4idXSeibGnaSyiTDIiy.RCN2ay.ZIxqp40DKURDO/Pxbcqak1"
+        groups: wheel 

@@ -8,13 +8,13 @@
     - vim
     - jq
 
-- name: Add maven repo
-  get_url: 
-    url: http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo
-    dest: /etc/yum.repos.d/epel-apache-maven.repo 
+#- name: Add maven repo
+#  get_url: 
+#    url: http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo
+#    dest: /etc/yum.repos.d/epel-apache-maven.repo 
 
-- name: Install maven
-  yum: pkg=apache-maven update_cache=yes
+#- name: Install maven
+#  yum: pkg=apache-maven update_cache=yes
 
 - name: install numpy
   yum: name=numpy state=latest
@@ -24,3 +24,29 @@
 
 - name: install krb5-libs
   yum: name=krb5-libs state=latest
+
+- name: download oracle java 1.8
+  get_url:
+    url: http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm
+    headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+    validate_certs: no
+    dest: /tmp/
+
+- name: install oracle java 1.8
+  command: yum -y localinstall /tmp/jdk-8u60-linux-x64.rpm
+
+- name: edit openfile limits soft
+  lineinfile: 
+    dest: /etc/security/limits.conf 
+    line: '* soft nofile 66000'
+
+- name: edit openfile limits hard
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '* hard nofile 66000'
+
+- name: edit vm.max_map_count
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.max_map_count=262144'
+

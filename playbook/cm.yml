@@ -1,4 +1,4 @@
-- hosts: master
+- hosts: all
   gather_facts: False
   roles:
    - role: cm

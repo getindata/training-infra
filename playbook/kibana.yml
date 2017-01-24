@@ -1,4 +1,4 @@
-- hosts: edge
+- hosts: all
   gather_facts: true
   roles:
    - role: kibana

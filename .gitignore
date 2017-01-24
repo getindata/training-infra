@@ -3,3 +3,9 @@ log
 log/*
 roles_external/*
 oregon.pem
+clouderaconfig.ini
+pbatgetindata
+getindatatraining.json
+terraform-clusters/*
+inventories/*
+training_gce/*

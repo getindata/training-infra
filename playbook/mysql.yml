@@ -1,4 +1,4 @@
-- hosts: master
-  gather_facts: false
+- hosts: all 
+  gather_facts: true 
   roles:
    - role: mysql

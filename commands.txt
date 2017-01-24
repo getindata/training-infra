@@ -1,0 +1,46 @@
+ 1081  ansible-playbook playbook/bootstrap.yml -i inventories/gce/
+ 1088  ansible-playbook playbook/bootstrap_gce.yml -i inventories/gce/
+ 1091  ansible-playbook playbook/bootstrap.yml -i inventories/gce/
+ 1093  ansible-playbook playbook/bootstrap.yml -i inventories/gce/
+ 1095  ansible-playbook --help
+ 1096  ansible-playbook playbook/bootstrap.yml -i inventories/gce/ -u piotrektt --private-key=getindatatraining.json 
+ 1097  ansible-playbook playbook/bootstrap.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1098  ansible-playbook playbook/bootstrap.yml -i inventories/gce/ -l tag_master -u piotrektt --private-key=pbatgetindata
+ 1099  ansible-playbook playbook/bootstrap.yml -i inventories/gce/ -l tag_masterasdf -u piotrektt --private-key=pbatgetindata
+ 1116  ansible-playbook playbook/bootstrap.yml -i inventories/gce/ -l tag_slave -u piotrektt --private-key=pbatgetindata
+ 1218  history | grep ansible-playbook
+ 1219  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1221  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1223  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1225  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1227  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1229  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1231  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1233  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1235  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1237  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1239  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1241  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1243  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1245  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1249  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1251  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1253  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1255  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1257  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1259  ansible-playbook playbook/cm_gce.yml -i inventories/gce/ -u piotrektt --private-key=pbatgetindata
+ 1375  history | grep ansible-playbook
+ 1847  ansible-playbook playbook/cm-api.yaml 
+ 1849  ansible-playbook playbook/cm-api.yaml 
+ 1850  sudo ansible-playbook playbook/cm-api.yaml 
+ 1929  ansible-playbook playbook/cm-api.yaml 
+ 1930  sudo ansible-playbook playbook/cm-api.yaml 
+ 1932  sudo ansible-playbook playbook/cm-api.yaml 
+ 1980  ansible-playbook playbook/cm-api.yaml 
+ 1983  ansible-playbook playbook/cm-api.yaml 
+ 1986  ansible-playbook playbook/cm-api.yaml 
+ 1987  ansible-playbook playbook/cm-api.yaml 
+ 2017  ansible-playbook playbook/cm-api.yaml 
+ 2018  sudo ansible-playbook playbook/cm-api.yaml 
+ 2021  sudo ansible-playbook playbook/cm-api.yaml 
+ 2033  history | grep ansible-playbook > commands.txt

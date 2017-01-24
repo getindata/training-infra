@@ -23,7 +23,7 @@ slave_nodes = CONFIG.get("CDH", 'cluster.slavenodes').split(',')
 edge_nodes = CONFIG.get("CDH", 'cluster.edgenodes').split(',')
 
 
-api = ApiResource(cm_host, username=username, password=password)
+api = ApiResource(cm_host,version='13', username=username, password=password)
 
 # Connect with the Cluster
 CLUSTER = None
@@ -85,7 +85,8 @@ print "Parcel activated!"
 
 kafka_service = CLUSTER.create_service('kafka', "KAFKA")
 
-zookeeper_name = "zookeeper"
+#NEEDS TO BE EXACTLY AS ON CLUSTER //to do find automatic  
+zookeeper_name = "ZOOKEEPER-1"
 
 kafka_service.update_config({'zookeeper_service': zookeeper_name})
 

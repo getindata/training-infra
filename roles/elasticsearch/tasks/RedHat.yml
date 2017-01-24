@@ -5,9 +5,6 @@
 - name: installing unzip
   yum: pkg=unzip update_cache=no
 
-- name: installing java-1.8.0-openjdk.x86_64
-  yum: pkg=java-1.8.0-openjdk.x86_64 update_cache=no
-
 - name: creating directory for supervisor includes
   file: path=/etc/supervisor/conf.d state=directory mode=0755 recurse=yes
 
