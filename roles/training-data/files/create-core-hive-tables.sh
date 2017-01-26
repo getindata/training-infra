@@ -22,7 +22,7 @@ create-core-hive-tables() {
                         $CREATE_TABLE uuser (id int, fname string, lname string, gender string, birthdate string, state string, registrationdate string) $FORMAT location \"$DATA_DIR/user\";
                         $CREATE_TABLE streamsimple (userid int, songid int, ts string) $FORMAT location \"$DATA_DIR/streamsimple\";
                         $CREATE_TABLE stream (ts timestamp, host string, userid int, trackid int, duration int) $FORMAT location \"$DATA_DIR/stream\";
-                        $CREATE_TABLE track (id int, title string, artistname string) $FORMAT location \"$DATA_DIR/track\";
+                        $CREATE_TABLE track (id int, title string, artistname string) $FORMAT location \"$DATA_DIR/track\" tblproperties (\"skip.header.line.count\"=\"1\");
                         $CREATE_TABLE wordhappiness (word string, happiness float) $FORMAT location \"$DATA_DIR/wordhappiness\";
                         $CREATE_TABLE airport(id int, code string) $FORMAT location \"$DATA_DIR/airport\";
                         $CREATE_TABLE flight(airportFrom int, airportTo int, id int) $FORMAT location \"$DATA_DIR/flight\";
