@@ -1,4 +1,0 @@
-xbsd ansible_ssh_host=cdh.xbsd.pl
-
-[edge]
-xbsd

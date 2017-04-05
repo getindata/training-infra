@@ -1,6 +1,0 @@
----
-- name: installing supervisor
-  apt: name=supervisor state=present
-
-- name: creating symlink for supervisord daemon
-  file: src=/etc/init.d/supervisor dest=/etc/init.d/supervisord owner=root group=root state=link

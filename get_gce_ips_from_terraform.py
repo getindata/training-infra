@@ -75,8 +75,16 @@ def write_hosts_list(host):
     fo.write(''.join(lines))
     fo.close()
 
+def write_master_ip_to_clouderaconfig(host):
+    command = "cm.host=%s\n" % (host['master']['public_ip'][0])
+    
+    with open('playbook/clouderaconfig.ini', 'r') as file:
+        data = file.readlines()
+    data[1] = command
+    
+    with open('playbook/clouderaconfig.ini', 'w') as file:
+        file.writelines(data)    
 
-terraform_dir = '.'
 opts, args = getopt.getopt(sys.argv[1:],"i:")
 for k, v in opts:
     if k == '-i':
@@ -91,3 +99,5 @@ print host
 #if len(host) > 0:
 #    filename = write_hosts_file(host, terraform_dir)
 write_hosts_list(host)
+write_master_ip_to_clouderaconfig(host)
+

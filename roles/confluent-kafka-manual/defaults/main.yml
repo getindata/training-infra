@@ -1,9 +1,0 @@
-zk_port: '2181'
-# zk_ensemble: "{{ groups['zookeepers'] | join(':' + zk_port + ',')}}{{':' + zk_port + ','}}"
-
-zk_ensemble: '{%- set comma = joiner(",") -%}
-  {%- for node in groups["zookeepers"] -%}
-  {{ comma() }}{{hostvars[node].ansible_default_ipv4.address}}:{{zk_port}}
-  {%- endfor %}'
-
-kafka_zk_path: "{{zk_ensemble}}/kafka"

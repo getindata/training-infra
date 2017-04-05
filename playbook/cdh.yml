@@ -1,4 +1,0 @@
-- hosts: master
-  gather_facts: false
-  roles:
-   - role: cdh

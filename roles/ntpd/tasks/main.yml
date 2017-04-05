@@ -1,4 +1,0 @@
-- name: Enabling NTP daemon
-  command: /usr/bin/systemctl enable ntpd
-- name: Start NTP daemon
-  command: /usr/bin/systemctl start ntpd

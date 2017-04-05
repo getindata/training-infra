@@ -1,9 +1,0 @@
-- name: Install kafka config
-  template: src=server.properties dest=/etc/kafka/server.properties
-
-- name: Stop kafka
-  shell: kafka-server-stop
-  ignore_errors: true
-
-# - name: Start kafka
-#  shell: kafka-server-start -daemon /etc/kafka/server.properties

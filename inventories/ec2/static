@@ -1,2 +1,0 @@
-[ec2-provisioner]
-localhost ansible_connection=local

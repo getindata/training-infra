@@ -1,3 +1,0 @@
-getindata-kafka-1 ansible_ssh_host=52.12.194.111
-getindata-kafka-2 ansible_ssh_host=54.185.159.164
-getindata-kafka-3 ansible_ssh_host=54.212.66.215

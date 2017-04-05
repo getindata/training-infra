@@ -1,5 +1,0 @@
----
-
-- name: Get HUE database password
-  command: chdir={{ role_path }}/files/ python get-hue-db-pass.py
-

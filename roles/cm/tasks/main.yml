@@ -10,7 +10,7 @@
   command: /tmp/cm-setup.sh
 
 - name: upload CDH setup script
-  copy: src=/home/adam/jarek/cdh-setup.py dest=/tmp/cdh-setup.py owner=root group=root mode=0777
+  copy: src=/home/adam/training-infra-piotrek/cdh-setup.py dest=/tmp/cdh-setup.py owner=root group=root mode=0777
 
 - name: execute CDH setup
-  command: /tmp/cdh-setup.py --cmhost master-large.c.getindata-training.internal --nodes master-large.c.getindata-training.internal slave-1.c.getindata-training.internal slave-2.c.getindata-training.internal slave-3.c.getindata-training.internal edge.c.getindata-training.internal
+  command: /tmp/cdh-setup.py --cmhost master-large.c.getindata-training.internal --nodes master-large.c.getindata-training.internal slave-1.c.getindata-training.internal slave-2.c.getindata-training.internal slave-3.c.getindata-training.internal slave-4.c.getindata-training.internal slave-5.c.getindata-training.internal edge.c.getindata-training.internal

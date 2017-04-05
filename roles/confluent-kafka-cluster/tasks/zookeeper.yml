@@ -1,9 +1,0 @@
-- name: Install ZK configuration
-  template: src=zookeeper.properties dest=/etc/kafka/zookeeper.properties
-
-- name: Install ZK myid
-  template: src=myid dest=/var/lib/zookeeper/myid
-
-
-- name: Start Zookeeper
-  shell: zookeeper-server-start -daemon /etc/kafka/zookeeper.properties

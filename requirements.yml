@@ -1,9 +1,0 @@
----
-- src: ansiblebit.oracle-java
-- src: sfromm.epel
-- src: https://github.com/willshersystems/ansible-users
-  path: roles_external
-  name: users
-
-- src: crushlovely.ec2-provision
-  path: roles_external

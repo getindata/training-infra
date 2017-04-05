@@ -1,3 +1,0 @@
----
-- name: install cm-api
-  pip: name=cm_api state=latest

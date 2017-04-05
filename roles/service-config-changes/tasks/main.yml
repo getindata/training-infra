@@ -1,7 +1,0 @@
----
-
-
-- name: Run configuration scripts
-  command: chdir={{ role_path }}/files/ python "{{ item }}"
-  with_items:
-    - "{{ configuration_scripts_to_run }}"

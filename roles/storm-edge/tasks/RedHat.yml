@@ -1,3 +1,0 @@
----
-- name: installing unzip
-  yum: pkg=unzip update_cache=yes

@@ -1,8 +1,0 @@
-# execute it locally
-- hosts: ec2-provisioner 
-  gather_facts: True
-  become: False
-  roles:
-    - role: "crushlovely.ec2-provision"
-
-

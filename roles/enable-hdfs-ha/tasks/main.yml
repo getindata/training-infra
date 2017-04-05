@@ -1,4 +1,0 @@
----
-
-- name: Enable hdfs HA
-  command: chdir={{ role_path }}/files/ python enable_hdfs_ha.py
