@@ -13,7 +13,7 @@ resource "google_compute_instance" "master" {
     name = "master-large"
     machine_type = "n1-standard-4"
     count = 1 
-    zone = "us-east1"
+    zone = "us-east1-d"
     tags = ["master",]
 
 
@@ -49,7 +49,7 @@ resource "google_compute_instance" "slave" {
     name = "slave-${count.index + 1}"
     machine_type = "n1-standard-1"
     count = 2 
-    zone = "us-east1"
+    zone = "us-east1-d"
     tags = ["slave",]
 
     network_interface {
@@ -84,7 +84,7 @@ resource "google_compute_instance" "edge" {
     name = "edge"
     machine_type = "n1-standard-2"
     count = 1 
-    zone = "us-east1"
+    zone = "us-east1-d"
     tags = ["edge",]
 
 
