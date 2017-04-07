@@ -1,5 +1,5 @@
 provider "google" {
-    credentials = "${file("gce_key.json")}"
+    credentials = "${file("gce-tutorial.json")}"
     project = "gce-tutorial"
     region = "us-east1-d"
 }
@@ -34,8 +34,8 @@ resource "google_compute_instance" "master" {
             "sudo pip install --upgrade pip",
         ]
         connection {
-            user = "gce_user"
-            key_file = "gce_key"
+            user = "gce-user"
+            key_file = "gce-key"
         }
     }
 }
@@ -69,8 +69,8 @@ resource "google_compute_instance" "slave" {
             "sudo pip install --upgrade pip",
         ]
         connection {
-            user = "gce_user"
-            private_key = "gce_key"
+            user = "gce-user"
+            private_key = "gce-key"
         }
     }
 }
@@ -105,8 +105,8 @@ resource "google_compute_instance" "edge" {
             "sudo pip install --upgrade pip",
         ]
         connection {
-            user = "gce_user"
-            key_file = "gce_key"
+            user = "gce-user"
+            key_file = "gce-key"
         }
     }
 }
