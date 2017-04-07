@@ -1,6 +1,6 @@
 provider "google" {
     credentials = "${file("gce_key.json")}"
-    project = "gce_tutorial"
+    project = "gce-tutorial"
     region = "us-east1-d"
 }
 
