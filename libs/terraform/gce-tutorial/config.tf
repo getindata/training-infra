@@ -35,7 +35,7 @@ resource "google_compute_instance" "master" {
         ]
         connection {
             user = "gce-user"
-            key_file = "gce-key"
+            private_key= "${file("gce-user")}"
         }
     }
 }
@@ -70,7 +70,7 @@ resource "google_compute_instance" "slave" {
         ]
         connection {
             user = "gce-user"
-            private_key = "gce-key"
+            private_key= "${file("gce-user")}"
         }
     }
 }
@@ -106,7 +106,7 @@ resource "google_compute_instance" "edge" {
         ]
         connection {
             user = "gce-user"
-            key_file = "gce-key"
+            private_key= "${file("gce-user")}"
         }
     }
 }
