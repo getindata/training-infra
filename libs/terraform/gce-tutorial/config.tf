@@ -1,7 +1,7 @@
 provider "google" {
     credentials = "${file("gce-tutorial.json")}"
     project = "gce-tutorial"
-    region = "us-east1-d"
+    region = "us-east1"
 }
 
 resource "google_compute_instance" "master" {
