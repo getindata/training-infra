@@ -1,0 +1,15 @@
+---
+- name: adding group supergroup
+  group: name=supergroup state=present
+
+- name: adding group nifi
+  group: name=nifi state=present
+
+- name: adding user nifi
+  user: name=nifi groups=nifi,supergroup
+
+- name: adding group kylo
+  group: name=kylo state=present
+
+- name: adding user kylo
+  user: name=kylo groups=kylo,supergroup

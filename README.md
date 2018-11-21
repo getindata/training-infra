@@ -24,3 +24,7 @@ ansible-playbook playbook/training-setup.yml -i ${HOSTS_FILE} -u ${USERNAME} --p
 pip install ansible
 ansible-galaxy install -r requirements.yml
 ```
+
+```
+ansible-playbook playbook/kylo.yml -i inventories/training-cdh -u root -k
+```
