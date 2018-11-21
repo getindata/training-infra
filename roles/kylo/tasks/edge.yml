@@ -1,0 +1,141 @@
+---
+- name: install postgresql
+  yum: name=postgresql state=latest
+
+- name: install postgresql-server
+  yum: name=postgresql-server state=latest
+
+- name: install postgresql-contrib
+  yum: name=postgresql-contrib state=latest
+
+- name: install postgresql-devel
+  yum: name=postgresql-devel state=latest
+
+- name: Initiate database
+  command: service postgresql initdb
+           creates=/var/lib/pgsql/data/postgresql.conf
+
+- name: Start PostgreSQL and enable at boot
+  service: name=postgresql enabled=yes state=started
+
+- name: Ensure PostgreSQL is listening on all localhost
+  lineinfile: dest=/var/lib/pgsql/data/postgresql.conf
+    regexp='^#?listen_addresses\s*='
+    line="listen_addresses = 'cdh-edge-1.gid'"
+    state=present
+
+#- lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf
+#              regexp='host\s+all\s+all\s+127.0.0.1/32\s+md5'
+#              line='host all all cdh-edge-1.gid/32 md5'
+#              insertbefore=BOF
+
+- name: restart postgresql
+  service: name=postgresql state=restarted
+
+- name: adding group nifi
+  group: name=nifi state=present
+
+- name: adding user nifi
+  user: name=nifi groups=nifi,supergroup
+
+- name: adding group kylo
+  group: name=kylo state=present
+
+- name: adding user kylo
+  user: name=kylo groups=kylo,supergroup
+
+- name: adding group activemq
+  group: name=activemq state=present
+
+- name: adding user activemq
+  user: name=activemq group=activemq
+
+# beause the rpm file is 763MB, it assumes it's pre-uploaded into the edgenode before installation
+- name: install kylo rpm from a local file
+  yum: name=/root/kylo-0.8.3.rpm state=present
+
+- name: Update "spring.datasource.password" in the config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: spring.datasource.password
+    value: abc123
+    no_extra_spaces: yes
+
+- name: Update "" in the config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: metadata.datasource.password
+    value: abc123
+    no_extra_spaces: yes
+
+- name: Update "" in the config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: modeshape.datasource.password
+    value: abc123
+    no_extra_spaces: yes
+
+- name: Update "" in the config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: nifi.service.mysql.password
+    value: cloudera
+    no_extra_spaces: yes
+
+- name: Ensure "hive.metastore.datasource.password=cloudera" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: hive.metastore.datasource.password
+    value: cloudera
+    no_extra_spaces: yes
+
+- name: Ensure "hive.datasource.username=hive" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: hive.datasource.username
+    value: hive
+    no_extra_spaces: yes
+
+- name: Ensure "hive.metastore.datasource.url=jdbc:mysql://localhost:3306/metastore" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: hive.metastore.datasource.url
+    value: jdbc:mysql://localhost:3306/metastore
+    no_extra_spaces: yes
+
+- name: Ensure "config.hive.schema=metastore" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: config.hive.schema
+    value: metastore
+    no_extra_spaces: yes
+
+- name: Ensure "nifi.executesparkjob.sparkhome=/usr/lib/spark" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: nifi.executesparkjob.sparkhome
+    value: /usr/lib/spark
+    no_extra_spaces: yes
+
+- name: Update "config.spark.validateAndSplitRecords.extraJars" is config
+  ini_file:
+    dest: /opt/kylo/kylo-services/conf/application.properties
+    section: null
+    option: config.spark.validateAndSplitRecords.extraJars
+    value: /usr/lib/hive-hcatalog/share/hcatalog/hive-hcatalog-core.jar
+    no_extra_spaces: yes
+
+- name: restart kylo
+  command: kylo-service restart
+
+- name: restart nifi
+  service: name=nifi state=restarted

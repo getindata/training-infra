@@ -1,0 +1,2 @@
+- include: master.yml
+  when: inventory_hostname in groups['masters']

@@ -1,0 +1,5 @@
+- include: edge.yml
+  when: inventory_hostname in groups['edges']
+
+- include: master.yml
+  when: inventory_hostname in groups['masters']
