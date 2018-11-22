@@ -1,0 +1,46 @@
+---
+
+- name: copying files to install jupyter
+  copy: src="{{item}}" dest=/tmp/ mode=755
+  with_items:
+    - jupyterhub_config.py
+    - jupyterhub
+    - pyspark_kernel.json
+    - python2_kernel.json
+    - setup.sh
+
+- name: chmod setup.sh
+  command: chmod +x /tmp/setup.sh
+
+- name: setup jupyter 
+  command: sudo /tmp/setup.sh
+
+- name: ensure pysark kernel dir exists 
+  file: path=/usr/local/share/jupyter/kernels/pyspark state=directory
+
+- name: ensure python2 kernel dir exists
+  file: path=/usr/local/share/jupyter/kernels/python2 state=directory
+
+- name: copy spark kernel configuration files
+  copy:
+    src: /tmp/pyspark_kernel.json
+    dest: /usr/local/share/jupyter/kernels/pyspark/kernel.json
+    remote_src: True
+
+- name: copy python kernel configuration file
+  copy:
+    src: /tmp/python2_kernel.json
+    dest: /usr/local/share/jupyter/kernels/python2/kernel.json
+    remote_src: True
+
+- name: copy jupyter configuration file
+  copy:
+    src: /tmp/jupyterhub_config.py
+    dest: /etc/jupyterhub/jupyterhub_config.py
+    remote_src: True
+
+- name: chmod jupyter deamon
+  command: chmod +x /tmp/jupyterhub
+
+- name: start jupyter daemon
+  command: /tmp/jupyterhub restart --port=9099

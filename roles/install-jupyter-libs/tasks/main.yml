@@ -1,0 +1,55 @@
+---
+
+- name: yum install npm
+  yum: name=npm state=latest
+
+- name: Install "configurable-http-proxy" node.js package.
+  npm: name=configurable-http-proxy global=yes state=latest
+
+- name: yum remove numpy
+  yum: name=numpy state=absent
+
+- name: pip install numpy
+  pip: name=numpy state=latest
+
+- name: pip install six
+  pip: name=six state=latest
+
+- name: instlal gcc-c++
+  yum: name=gcc-c++ state=latest
+
+- name: install python-devel
+  yum: name=python-devel state=latest
+
+- name: install tkinter
+  yum: name=tkinter state=latest
+
+#- name: install ipykernel
+#  pip: name=ipykernel state=latest
+
+- name: pip install xgboost
+  pip: name=xgboost state=latest
+
+- name: pip install seaborn
+  pip: name=seaborn state=latest
+
+#- name: pip install Ipython
+#  pip: name=ipython state=latest
+
+- name: pip install ml_metrics
+  pip: name=ml_metrics state=latest
+
+- name: pip install ggplot
+  pip: name=ggplot state=latest
+
+- name: pip install sklearn
+  pip: name=sklearn state=latest
+
+- name: pip install ipywidgets
+  pip: name=ipywidgets state=latest
+
+- name: pip install matplotlib
+  pip: name=matplotlib state=latest
+
+- name: pip install pandas
+  pip: name=pandas state=latest 
