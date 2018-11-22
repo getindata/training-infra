@@ -1,0 +1,2 @@
+CREATE ROLE hive LOGIN PASSWORD 'hive_password:)';
+CREATE DATABASE hive OWNER hive ENCODING 'UTF8';
