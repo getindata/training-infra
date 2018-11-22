@@ -3,10 +3,9 @@
   vars:
 
   # scripts needs to placed in service-config-changes/files
-    configuration_scripts_to_run:
-      - configure_hbase.py
-      - configure_yarn.py
-
+  #configuration_scripts_to_run:
+  #  - configure_hbase.py
+  #  - configure_yarn.py
 
   roles:
      - role: cm-api-libs
