@@ -42,5 +42,6 @@
 - name: chmod jupyter deamon
   command: chmod +x /tmp/jupyterhub
 
-- name: start jupyter daemon
-  command: /tmp/jupyterhub restart --port=9099
+- name: restart jupyter daemon
+  shell: /tmp/jupyterhub restart
+
