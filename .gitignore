@@ -3,3 +3,6 @@ log
 log/*
 roles_external/*
 oregon.pem
+playbook/*.retry
+./clusters/*/id_rsa_training
+./roles/*/.travis.yml

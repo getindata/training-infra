@@ -9,11 +9,23 @@
 - name: yum remove numpy
   yum: name=numpy state=absent
 
-- name: pip install numpy
-  pip: name=numpy state=latest
+- name: pip uninstall pandas
+  pip: name=pandas state=absent
+
+- name: pip uninstall numpy
+  pip: name=numpy state=absent
 
 - name: pip install pandas
   pip: name=pandas state=latest
+
+- name: pip install numpy
+  pip: name=numpy state=latest
+
+- name: pip install plotly
+  pip: name=plotly state=latest
+
+- name: pip install cufflinks
+  pip: name=cufflinks state=latest
 
 - name: pip install six
   pip: name=six state=latest
