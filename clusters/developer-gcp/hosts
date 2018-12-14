@@ -1,0 +1,9 @@
+[edge]
+cdh-edge-01 ansible_ssh_host=35.231.192.217
+[master] 
+cdh-master-01 ansible_ssh_host=35.185.30.25
+[slave]
+cdh-slave-01 ansible_ssh_host=35.196.81.154
+cdh-slave-02 ansible_ssh_host=35.190.166.171
+cdh-slave-03 ansible_ssh_host=35.229.56.189
+cdh-slave-04 ansible_ssh_host=35.196.131.44
