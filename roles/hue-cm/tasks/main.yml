@@ -1,0 +1,11 @@
+---
+
+- name: Copy script to install hue
+  copy: src="{{item}}" dest=/tmp/ mode=755
+  with_items:
+    - configure-hue-db.sh
+
+- name: Configure HUE db
+  command: /tmp/configure-hue-db.sh
+  become: yes
+  become_user: root

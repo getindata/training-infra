@@ -145,7 +145,10 @@ def set_up_cluster(cm_host, host_list):
     except:
       print "Creating service: " + service_types_and_names[s]
       service = cluster.create_service(service_types_and_names[s], s)
-  
+
+  slaves = [ host for host in host_list if 'slave' in host]
+  edges = [ host for host in host_list if 'edge-01' in host]
+
   #assign master roles to master node
   for service in cluster.get_all_services():
     if service.name == 'HDFS-1':
@@ -153,6 +156,8 @@ def set_up_cluster(cm_host, host_list):
       service.create_role('SECONDARYNAMENODE', 'SECONDARYNAMENODE', cm_host)
       service.create_role('BALANCER-1', 'BALANCER', cm_host)
       service.create_role('HTTPFS-1', 'HTTPFS', cm_host)
+      for (i, slave) in enumerate(slaves):
+        service.create_role('DATANODE-%s' % i, 'DATANODE', slave)
     if service.name == 'ZOOKEEPER-1':
       service.create_role('ZOOKEEPERSERVER-1', 'SERVER', cm_host)
     if service.name == 'HBASE-1':
@@ -166,6 +171,8 @@ def set_up_cluster(cm_host, host_list):
     if service.name == 'IMPALA-1':
       service.create_role('STATESTORE-1', 'STATESTORE', cm_host)
       service.create_role('CATALOGSERVER-1', 'CATALOGSERVER', cm_host)
+      for (i, slave) in enumerate(slaves):
+        service.create_role('IMPALAD-%s' % i, 'IMPALAD', slave)
     if service.name == 'OOZIE-1':
       service.create_role('OOZIE_SERVER-1', 'OOZIE_SERVER', cm_host)
     if service.name == 'SPARK_ON_YARN-1':
@@ -175,8 +182,8 @@ def set_up_cluster(cm_host, host_list):
     if service.name == 'YARN-1':
       service.create_role('RESOURCEMANAGER-1', 'RESOURCEMANAGER', cm_host)
       service.create_role('JOBHISTORY-1', 'JOBHISTORY', cm_host)
-
-
+      for (i, slave) in enumerate(slaves):
+        service.create_role('NODEMANAGER-%s' % i, 'NODEMANAGER', slave)
 
   print "Auto assigning roles."
   cluster.auto_assign_roles()

@@ -1,0 +1,19 @@
+{
+
+"display_name": "pySpark 2.3.0.cloudera4",
+ "language": "python",
+ "argv": [
+  "/usr/bin/python2",
+  "-m",
+  "ipykernel_launcher",
+  "-f",
+  "{connection_file}"
+ ],
+ "env": {
+  "HADOOP_CONF_DIR":"/etc/spark2/conf/yarn-conf",
+  "SPARK_HOME": "/opt/cloudera/parcels/SPARK2/lib/spark2",
+  "PYTHONPATH": "/opt/cloudera/parcels/SPARK2/lib/spark2/python/:/opt/cloudera/parcels/SPARK2/lib/spark2/python/lib/py4j-0.10.7-src.zip:/usr/lib64/python2.7/site-packages:$PYTHONPATH",
+  "PYTHONSTARTUP": "/opt/cloudera/parcels/SPARK2/lib/spark2/python/pyspark/shell.py",
+  "PYSPARK_SUBMIT_ARGS": "--master yarn-client pyspark-shell"
+ }
+}

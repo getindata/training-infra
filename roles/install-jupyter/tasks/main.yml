@@ -43,5 +43,5 @@
   command: chmod +x /tmp/jupyterhub
 
 - name: restart jupyter daemon
-  shell: /tmp/jupyterhub restart
+  shell: nohup /tmp/jupyterhub restart &
 

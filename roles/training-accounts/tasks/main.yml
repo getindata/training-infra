@@ -34,9 +34,3 @@
   with_nested:
     - "{{ users }}"
     - "{{ password_suffix }}"
-
-
-- name: Check if server logs are available
-  get_url: url="https://dl.dropboxusercontent.com/u/16026724/logs/{{ item }}.tsv" dest="/tmp/{{ item }}" mode=0755
-  with_items:
-    - "{{ users }}"
