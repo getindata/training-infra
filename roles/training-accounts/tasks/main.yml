@@ -8,26 +8,33 @@
   with_items:
     - "{{ users }}"
 
+- name: Set authorized key
+  authorized_key:
+    user: '{{ item }}'
+    key: "{{ lookup('file', 'training-user.pub') }}"
+    state: present
+    exclusive: True
+  with_items:
+    - "{{ users }}"
 
 - name: Add maven to barshrc
   command: echo "export PATH=\$PATH:/usr/local/maven/bin" >> /home/${user}/.bashrc
   with_items:
     - "{{ users }}"
 
-
-- name: Enable password-based login
-  command: sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-
+- name: Disable password-based login for security
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
 
 - name: Restart sshd
   service: name=sshd state=restarted
-
 
 - name: Copy scripts
   copy: src="{{ item }}" dest=/tmp mode=755
   with_items:
     - onboard-user.sh
-
 
 - name: Onboard a user
   command: /tmp/onboard-user.sh {{ item[0] }} {{ item[1] }}
