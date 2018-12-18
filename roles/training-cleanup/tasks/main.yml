@@ -1,0 +1,33 @@
+---
+- name: Delete user accounts and home directories
+  user: 
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  with_items:
+    - "{{ users }}"
+
+- name: Delete HDFS home directories
+  command: hdfs dfs -rm -r -f -skipTrash /user/{{ item }}
+  become_user: hdfs
+  with_items:
+    - "{{ users }}"
+
+- name: Delete /incoming/logs/upload/ subdirectories
+  command: hdfs dfs -rm -r -f -skipTrash /incoming/logs/upload/*
+  become_user: hdfs
+
+- name: Remove user tables in Hive
+  command: hive -e "drop table if exists {{ item }}.stream; drop database if exists {{ item }};"
+  become_user: hdfs
+  with_items:
+    - "{{ users }}"
+
+- name: Remove user Hive table data
+  command: hdfs dfs -rm -r -f -skipTrash /apps/hive/warehouse/{{ item }}.db /user/hive/warehouse/{{ item }}.db
+  become_user: hdfs
+  with_items:
+    - "{{ users }}"
+
+#- name: Clear Hue history
+#  command: mysql -p'root' -e 'SET foreign_key_checks = 0; delete from hue.desktop_document2;'
