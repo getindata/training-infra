@@ -18,9 +18,9 @@ from time import sleep
 import re
 import argparse
 
-cluster_name = "Cluster POC"
+cluster_name = "Training Cluster"
 cdh_version = "CDH5"
-cdh_version_number = "5.14.0"
+cdh_version_number = "5.16.1"
 hive_metastore_name = "hive"
 hive_metastore_user = "hive"
 hive_metastore_password = "hive_password:)"
@@ -147,7 +147,7 @@ def set_up_cluster(cm_host, host_list):
       service = cluster.create_service(service_types_and_names[s], s)
 
   slaves = [ host for host in host_list if 'slave' in host]
-  edges = [ host for host in host_list if 'edge-01' in host]
+  edges = [ host for host in host_list if 'edge' in host]
 
   #assign master roles to master node
   for service in cluster.get_all_services():
