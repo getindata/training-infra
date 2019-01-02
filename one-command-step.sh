@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -x -e
 
 STEP=$1
 USERNAME=$2
@@ -22,13 +22,10 @@ if [[ ! -f ${PRIVATE_KEY} ]] ; then
     exit
 fi
 
-# if [ "${STEP}" == "aws" ] ; then
-#     terraform plan -out=${TERRAFORM_PLAN} ${TERRAFORM_CONF_DIR}
-#     terraform apply -state=${TERRAFORM_STATE} ${TERRAFORM_CONF_DIR}
-# fi
-
-# TODO: write the output file '${HOSTS_FILE}' to the directory where terraform config is
-# ./get_aws_ips_from_terraform.py -i ${TERRAFORM_CONF_DIR}
+if [ "${STEP}" == "gce" ] ; then
+    ( cd ${CLUSTER_DIR}; terraform plan; terraform apply )
+    ./get_gce_ips_from_terraform.py -i ${CLUSTER_DIR}
+fi
 
 
 if [ "${STEP}" == "mysql" ] ; then
@@ -41,8 +38,6 @@ if [ "${STEP}" == "setup" ] ; then
     ansible-playbook playbook/devenv.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
     ansible-playbook playbook/setup-user.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
     ansible-playbook playbook/selinux-disable.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
-    echo "Sleeping after reboot"
-    sleep 120
 fi
 
 
