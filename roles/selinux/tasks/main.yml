@@ -3,6 +3,4 @@
   copy: src=config dest=/etc/selinux/config owner=root group=root mode=0666
 
 - name: Rebooting host
-  command: /sbin/reboot
-  async: 45
-  poll: 0 
+  reboot:
