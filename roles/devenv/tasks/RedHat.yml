@@ -25,15 +25,18 @@
 - name: install krb5-libs
   yum: name=krb5-libs state=latest
 
-- name: download oracle java 1.8
-  get_url:
-    url: https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm
-    headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
-    validate_certs: no
-    dest: /tmp
+- name: install OpenJDK 1.8
+  yum: name=java-1.8.0-openjdk-devel state=latest
 
-- name: install oracle java 1.8
-  command: yum -y localinstall /tmp/jdk-8u191-linux-x64.rpm
+#- name: download oracle java 1.8
+#  get_url:
+#    url: https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm
+#    headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+#    validate_certs: no
+#    dest: /tmp
+#
+#- name: install oracle java 1.8
+#  command: yum -y localinstall /tmp/jdk-8u191-linux-x64.rpm
 
 
 - name: edit openfile limits soft
