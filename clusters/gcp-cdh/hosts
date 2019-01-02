@@ -1,0 +1,9 @@
+[edge]
+edge-1 ansible_ssh_host=35.231.219.237
+[master]
+master-1 ansible_ssh_host=35.185.83.132
+[slave]
+slave-1 ansible_ssh_host=35.229.110.249
+slave-2 ansible_ssh_host=104.196.48.150
+slave-3 ansible_ssh_host=35.231.117.163
+slave-4 ansible_ssh_host=35.243.229.138
