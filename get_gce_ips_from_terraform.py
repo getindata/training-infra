@@ -24,7 +24,7 @@ def parse_terraform_show(path):
                 if not 'public_ip' in host[type]:
                     host[type]['public_ip'] = []
 
-        if 'id' in line:
+        if 'id' in line and not 'instance_id' in line:
             host[type]['private_dns'].append(get_part(line, ' = ', 1).strip()+".c.getindata-training.internal")
 
         if 'network_interface.0.access_config.0.nat_ip' in line:
@@ -34,19 +34,19 @@ def parse_terraform_show(path):
     return host
 
 def write_host_to_file(host, type, fo):
-    fo.write("[%s]\n" % (get_part(type, '-', 1)))
+    fo.write("[%s]\n" % (type))
     if type in host:
         for i in range(len(host[type]['public_ip'])):
-            fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
+            fo.write("%s-%d ansible_ssh_host=%s\n" % (type, i+1, host[type]['public_ip'][i]))
 
 
 def write_hosts_file(host, directory):
     filename = '%s/hosts' % (directory)
     fo = open(filename, "wb")
 
-    write_host_to_file(host, 'cdh-edge', fo)
-    write_host_to_file(host, 'cdh-master', fo) 
-    write_host_to_file(host, 'cdh-slave', fo)
+    write_host_to_file(host, 'edge', fo)
+    write_host_to_file(host, 'master', fo) 
+    write_host_to_file(host, 'slave', fo)
 
     fo.close()
     return filename
@@ -96,8 +96,8 @@ host = parse_terraform_show(path)
 print host
 
 
-#if len(host) > 0:
-#    filename = write_hosts_file(host, terraform_dir)
+if len(host) > 0:
+    filename = write_hosts_file(host, terraform_dir)
 write_hosts_list(host)
 write_master_ip_to_clouderaconfig(host)
 

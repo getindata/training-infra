@@ -35,29 +35,29 @@ def parse_terraform_show(path):
 
 
 def write_host_to_file(host, type, fo):
-    fo.write("[%s]\n" % (get_part(type, '-', 1)))
+    fo.write("[%s]\n" % (type))
     if type in host:
         for i in range(len(host[type]['public_ip'])):
-            fo.write("xbsd-%s-%d ansible_ssh_host=%s\n" % (type, i, host[type]['public_ip'][i-1]))
+            fo.write("%s-%d ansible_ssh_host=%s\n" % (type, i+1, host[type]['public_ip'][i]))
 
 
 def write_hosts_file(host, directory):
     filename = '%s/hosts' % (directory)
     fo = open(filename, "wb")
 
-    write_host_to_file(host, 'cdh-edge', fo)
-    write_host_to_file(host, 'cdh-master', fo) 
-    write_host_to_file(host, 'cdh-slave', fo)
+    write_host_to_file(host, 'edge', fo)
+    write_host_to_file(host, 'master', fo) 
+    write_host_to_file(host, 'slave', fo)
 
     fo.close()
     return filename
 
 
 def write_hosts_list(host):
-    command = "  command: /tmp/cdh-setup.py --cmhost %s" % (host['cdh-master']['private_dns'][0])
+    command = "  command: /tmp/cdh-setup.py --cmhost %s" % (host['master']['private_dns'][0])
     command += " --nodes"
     all_nodes = []
-    for type in ['cdh-master', 'cdh-slave', 'cdh-edge']:
+    for type in ['master', 'slave', 'edge']:
         if type in host:
             all_nodes += host[type]['private_dns']
 
