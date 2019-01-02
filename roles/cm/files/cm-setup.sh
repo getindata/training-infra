@@ -3,7 +3,7 @@
 cm_status_file=/tmp/cm-setup.log
 
 # install & run cm
-CDH_VERSION=5.14.0
+CDH_VERSION=5.16.1
 if [ $# -eq 1 ]; then
   CDH_VERSION=$1
 fi
