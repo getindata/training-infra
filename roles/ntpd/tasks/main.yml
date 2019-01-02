@@ -1,4 +1,13 @@
-- name: Enabling NTP daemon
-  command: /usr/bin/systemctl enable ntpd
-- name: Start NTP daemon
-  command: /usr/bin/systemctl start ntpd
+- name: Stop NTP daemon
+  service:
+    name: ntpd
+    state: stopped
+
+- name: Force time synchronization
+  command: ntpdate 0.rhel.pool.ntp.org
+
+- name: Enable and start NTP daemon
+  service:
+    name: ntpd
+    state: started
+    enabled: yes
