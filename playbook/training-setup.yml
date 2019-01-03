@@ -32,15 +32,15 @@
       -  zebra
   gather_facts: false
   roles:
-#     - role: ntpd
-#     - role: mysql
-#     - role: training-libs
-#     - role: training-data
-      - role: training-cleanup
+      - role: ntpd
+      - role: mysql
+      - role: training-libs
+      - role: training-data
+#      - role: training-cleanup
       - role: training-accounts
 #     - role: hue   		# only for HDP
 #     - role: hue-users		# only for HDP
 # Please run cm_api playbook role in local mode to get_hue_db_password before running this one.
-#      - role: hue-users-cm
-#      - role: install-jupyter-libs
-#      - role: install-jupyter
+      - role: hue-users-cm
+      - role: install-jupyter-libs
+      - role: install-jupyter
