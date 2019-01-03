@@ -3,11 +3,18 @@
   connection: paramiko
   tasks:
   - name: Disable DNS check for SSH
-    action: lineinfile dest=/etc/ssh/sshd_config regexp="^#UseDNS" line="UseDNS no" state=present
+    action: lineinfile dest=/etc/ssh/sshd_config regexp="^UseDNS" line="UseDNS no" state=present
   - name: Adding ssh client alive interval to keep sessions up
     lineinfile: dest=/etc/ssh/sshd_config regexp="^ClientAliveInterval" line="ClientAliveInterval 30"
   - name: Adding ssh client alive fail count
     lineinfile: dest=/etc/ssh/sshd_config regexp="^ClientAliveCountMax" line="ClientAliveCountMax 2"
+  - name: Disable SSH access with password
+    action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  - name: Enable SSH access with password from CM host
+    blockinfile: |
+      dest=/etc/ssh/sshd_config 
+      content="Match address {{ hostvars[groups['master'][0]]['ansible_eth0']['ipv4']['address'] }}
+        PasswordAuthentication yes" state=present
   - name: Restart sshd
     service: name=sshd state=restarted
   - name: Remove require tty
