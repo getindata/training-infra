@@ -158,35 +158,59 @@ def set_up_cluster(cm_host, host_list):
       service.create_role('HTTPFS-1', 'HTTPFS', cm_host)
       for (i, slave) in enumerate(slaves):
         service.create_role('DATANODE-%s' % i, 'DATANODE', slave)
+
     if service.name == 'ZOOKEEPER-1':
       service.create_role('ZOOKEEPERSERVER-1', 'SERVER', cm_host)
+
     if service.name == 'HBASE-1':
       service.create_role('MASTER-1', 'MASTER', cm_host)
       service.create_role('HBASETHRIFTSERVER-1', 'HBASETHRIFTSERVER', cm_host)
+      for (i, slave) in enumerate(slaves):
+        service.create_role('HBASE-RS-%s' % i, 'REGIONSERVER', slave)
+
     if service.name == 'HUE-1':
-      service.create_role('HUE-1', 'HUE_SERVER', cm_host)
+      service.create_role('HUE-MASTER1', 'HUE_SERVER', cm_host)
+      service.create_role('HUE-LB_MASTER1', 'HUE_LOAD_BALANCER', cm_host)
+      for (i, edge) in enumerate(edges):
+        service.create_role('HUE-EDGE%s' % i, 'HUE_SERVER', edge)
+
     if service.name == 'HIVE-1':
       service.create_role('HIVEMETASTORE-1', 'HIVEMETASTORE', cm_host)
       service.create_role('HIVESERVER-1', 'HIVESERVER2', cm_host)
+      service.create_role('HIVE-GW_MASTER1', 'GATEWAY', cm_host)
+      for (i, edge) in enumerate(edges):
+        service.create_role('HIVE-GW_EDGE%s' % i, 'GATEWAY', edge)
+      for (i, slave) in enumerate(slaves):
+        service.create_role('HIVE-GW_SLAVE%s' % i, 'GATEWAY', slave)
+
     if service.name == 'IMPALA-1':
       service.create_role('STATESTORE-1', 'STATESTORE', cm_host)
       service.create_role('CATALOGSERVER-1', 'CATALOGSERVER', cm_host)
       for (i, slave) in enumerate(slaves):
         service.create_role('IMPALAD-%s' % i, 'IMPALAD', slave)
+
     if service.name == 'OOZIE-1':
       service.create_role('OOZIE_SERVER-1', 'OOZIE_SERVER', cm_host)
+
     if service.name == 'SPARK_ON_YARN-1':
       service.create_role('SPARK_YARN_HISTORY_SERVER-1', 'SPARK_YARN_HISTORY_SERVER', cm_host)
+      service.create_role('SPARK_ON_YARN-GW_MASTER%s' % i, 'GATEWAY', cm_host)
+      for (i, edge) in enumerate(edges):
+        service.create_role('SPARK_ON_YARN-GW_EDGE%s' % i, 'GATEWAY', edge)
+      for (i, slave) in enumerate(slaves):
+        service.create_role('SPARK_ON_YARN-GW_SLAVE%s' % i, 'GATEWAY', slave)
+
     if service.name == 'SQOOP-1':
       service.create_role('SQOOP_SERVER-1', 'SQOOP_SERVER', cm_host)
+
     if service.name == 'YARN-1':
       service.create_role('RESOURCEMANAGER-1', 'RESOURCEMANAGER', cm_host)
       service.create_role('JOBHISTORY-1', 'JOBHISTORY', cm_host)
       for (i, slave) in enumerate(slaves):
         service.create_role('NODEMANAGER-%s' % i, 'NODEMANAGER', slave)
 
-  print "Auto assigning roles."
-  cluster.auto_assign_roles()
+  #print "Auto assigning roles."
+  #cluster.auto_assign_roles()
   cluster.auto_configure()
 
   print "Updating Hive config."
