@@ -32,7 +32,6 @@
       -  zebra
   gather_facts: false
   roles:
-      - role: ntpd
       - role: mysql
       - role: training-libs
       - role: training-data
