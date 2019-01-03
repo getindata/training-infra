@@ -161,6 +161,8 @@ def set_up_cluster(cm_host, host_list):
       service.create_role('SECONDARYNAMENODE', 'SECONDARYNAMENODE', cm_host)
       service.create_role('BALANCER-1', 'BALANCER', cm_host)
       service.create_role('HTTPFS-1', 'HTTPFS', cm_host)
+      for (i, edge) in enumerate(edges):
+        service.create_role('HDFS-GW_EDGE%s' % i, 'GATEWAY', edge)
       for (i, slave) in enumerate(slaves):
         service.create_role('DATANODE-%s' % i, 'DATANODE', slave)
 
