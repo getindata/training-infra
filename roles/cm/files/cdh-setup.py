@@ -37,6 +37,8 @@ cm_password = "admin"
 cm_service_name = "mgmt"
 host_username = "cdh"
 host_password = "Cloudera"
+anaconda_repo = 'https://repo.anaconda.com/pkgs/misc/parcels/'
+anaconda_parcel_version = '5.1.0.1'
 service_types_and_names = {
    "ZOOKEEPER" : "ZOOKEEPER-1",
    "HDFS" : "HDFS-1",
@@ -254,6 +256,31 @@ def set_up_cluster(cm_host, host_list):
 
   print "First run successfully executed. Your cluster has been set up!"
   
+  config = cm.get_config(view='full')
+  repolist = config['REMOTE_PARCEL_REPO_URLS']
+  value = repolist.value or repolist.default
+  value += ',' + anaconda_repo
+  cm.update_config({'REMOTE_PARCEL_REPO_URLS': value})
+  sleep(10)  
+
+  cluster = api.get_cluster(cluster_name)
+  parcel = cluster.get_parcel('Anaconda', anaconda_parcel_version)
+
+  print "Downloading Anaconda parcel. This might take a while."
+  if parcel.stage == "AVAILABLE_REMOTELY":
+    parcel = wait_for_parcel(parcel.start_download(), api, parcel, cluster_name, 'DOWNLOADED')
+
+  print "Distributing Anaconda parcel. This might take a while."
+  if parcel.stage == "DOWNLOADED":
+    parcel = wait_for_parcel(parcel.start_distribution(), api, parcel, cluster_name, 'DISTRIBUTED')
+
+  print "Activating Anaconda parcel. This might take a while."
+  if parcel.stage == "DISTRIBUTED":
+    parcel = wait_for_parcel(parcel.activate(), api, parcel, cluster_name, 'ACTIVATED')
+  
+  print "Anaconda is now installed."
+
+
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-c', '--cmhost', nargs=1, metavar='hostname', help='specify hostname of cloudera manager', required=True)
