@@ -26,6 +26,11 @@ hive_metastore_user = "hive"
 hive_metastore_password = "hive_password:)"
 hive_metastore_database_type = "postgresql"
 hive_metastore_database_port = 7432
+hue_db_name = "hue"
+hue_db_user = "hue"
+hue_db_password = "hue"
+hue_db_port = "3306"
+hue_db_type = "mysql"
 cm_port = 7180
 cm_username = "admin"
 cm_password = "admin"
@@ -223,6 +228,17 @@ def set_up_cluster(cm_host, host_list):
                   "hive_metastore_database_port" : hive_metastore_database_port, \
                   "hive_metastore_database_type" : hive_metastore_database_type }
   hive.update_config(hive_config)
+
+  print "Updating Hue config."
+  hue_db_host = cm_host # let's assume that
+  hue = cluster.get_service(service_types_and_names["HUE"])
+  hue_config = {  "database_host" : hue_db_host, \
+                  "database_name" : hue_db_name, \
+                  "database_user" : hue_db_user, \
+                  "database_password" : hue_db_password, \
+                  "database_port" : hue_db_port, \
+                  "database_type" : hue_db_type }
+  hue.update_config(hue_config)
 
   print "Starting management service."
   cm_service = cm.get_service()
