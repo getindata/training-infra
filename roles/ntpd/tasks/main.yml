@@ -1,13 +1,11 @@
-- name: Stop NTP daemon
+- name: Disable and stop NTP daemon
   service:
     name: ntpd
     state: stopped
+    enabled: no
 
-- name: Force time synchronization
-  command: ntpdate 0.rhel.pool.ntp.org
-
-- name: Enable and start NTP daemon
+- name: Enable and start Chrony daemon
   service:
-    name: ntpd
+    name: chronyd
     state: started
     enabled: yes
