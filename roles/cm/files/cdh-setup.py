@@ -37,8 +37,8 @@ cm_password = "admin"
 cm_service_name = "mgmt"
 host_username = "cdh"
 host_password = "Cloudera"
-anaconda_repo = 'https://repo.anaconda.com/pkgs/misc/parcels/'
-anaconda_parcel_version = '5.1.0.1'
+anaconda_repo = 'https://repo.anaconda.com/pkgs/misc/parcels/archive'
+anaconda_parcel_version = '5.0.1'
 service_types_and_names = {
    "ZOOKEEPER" : "ZOOKEEPER-1",
    "HDFS" : "HDFS-1",
