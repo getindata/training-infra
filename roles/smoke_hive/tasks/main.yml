@@ -5,6 +5,7 @@
   with_items:
     - 2_hive.sh
     - common.sh
+    - lion.tsv
 
 
 - name: Test Hive operations
