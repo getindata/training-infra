@@ -3,4 +3,4 @@
     - role: smoke_hdfs
     - role: smoke_hive
     - role: smoke_spark
-    - role: smoke_kafka
+#    - role: smoke_kafka
