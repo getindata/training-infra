@@ -2,10 +2,6 @@
 
 . /tmp/common.sh
 
-echo "Downloading StreamRock log file"
-wget -q https://dl.dropboxusercontent.com/u/15980107/logs/lion.tsv -O /tmp/lion.tsv
-check_error_code
-
 echo "Uploading log file"
 hadoop fs -put -f /tmp/lion.tsv /incoming/logs/upload
 check_error_code
