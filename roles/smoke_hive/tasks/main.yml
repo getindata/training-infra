@@ -12,6 +12,8 @@
 #  become: yes
 #  become_user: hdfs
   register: out
-  command: sudo -u hdfs /tmp/2_hive.sh
+  command: /tmp/2_hive.sh
+  environment:
+    HADOOP_USER_NAME: hive
 
 - debug: var=out.stdout_lines
