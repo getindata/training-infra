@@ -1,0 +1,6 @@
+- hosts: all
+  tasks: [ ]
+
+- hosts: master
+  roles:
+     - role: install-kafka
