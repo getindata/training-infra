@@ -8,93 +8,70 @@ from cm_api.endpoints.parcels import get_parcel
 from time import sleep
 import ConfigParser
 
+def wait_for_parcel(cmd, api, parcel, cluster_name, stage):
+  if cmd.success != True:
+    print "Parcel stage transition to %s failed: " % stage
+    exit(7)
+  while parcel.stage != stage:
+    sleep(5)
+    parcel = get_parcel(api, parcel.product, parcel.version, cluster_name)
+  return parcel
 
 
 #CONFIGURATION
 
-CONFIG = ConfigParser.ConfigParser()
-CONFIG.read('clouderaconfig.ini')
-cm_host = CONFIG.get("CM", 'cm.host')
-username = CONFIG.get("CM", 'admin.name')
-password = CONFIG.get("CM", 'admin.password')
-cluster_name = CONFIG.get("CM", 'cluster.name')
-master_nodes = CONFIG.get("CDH", 'cluster.masternodes').split(',')
-slave_nodes = CONFIG.get("CDH", 'cluster.slavenodes').split(',')
-edge_nodes = CONFIG.get("CDH", 'cluster.edgenodes').split(',')
+config = ConfigParser.ConfigParser()
+config.read('clouderaconfig.ini')
+cm_host = config.get("CM", 'cm.host')
+username = config.get("CM", 'admin.name')
+password = config.get("CM", 'admin.password')
+cluster_name = config.get("CM", 'cluster.name')
+master_nodes = config.get("CDH", 'cluster.masternodes').split(',')
+slave_nodes = config.get("CDH", 'cluster.slavenodes').split(',')
+edge_nodes = config.get("CDH", 'cluster.edgenodes').split(',')
 
 
 api = ApiResource(cm_host, username=username, password=password)
 
 # Connect with the Cluster
-CLUSTER = None
+cluster = None
 for cluster in api.get_all_clusters():
     #print c.name
-    CLUSTER = cluster
+    cluster = cluster
 
 
 #Download and activate Kafka parcel
-PARCEL = None
-PARCEL_PRODUCT = None
-PARCEL_VERSION = None
-for p in CLUSTER.get_all_parcels():
-#    print p
-#    print p.product
-#    print p.version
+parcel = None
+parcel_product = None
+parcel_version = None
+for p in cluster.get_all_parcels():
     if p.product == "KAFKA":
-        PARCEL = p
-        PARCEL_PROCUCT = p.product
-        PARCEL_VERSION = p.version
+        parcel = p
+        parcel_product = p.product
+        parcel_version = p.version
 
-print PARCEL
+print parcel
 
-print "Starting parcel download. This may take a while"
-cmd = PARCEL.start_download()
-if cmd.success != True:
-    print "Parcel download failed!"
-    exit(0)
+print "Downloading Kafka parcel. This might take a while."
+if parcel.stage == "AVAILABLE_REMOTELY":
+  parcel = wait_for_parcel(parcel.start_download(), api, parcel, cluster_name, 'DOWNLOADED')
 
-while PARCEL.stage != "DOWNLOADED":
-    sleep(5)
-    PARCEL = get_parcel(api, PARCEL_PROCUCT, PARCEL_VERSION, cluster_name)
+print "Distributing Kafka parcel. This might take a while."
+if parcel.stage == "DOWNLOADED":
+  parcel = wait_for_parcel(parcel.start_distribution(), api, parcel, cluster_name, 'DISTRIBUTED')
 
-print "Parcel downloaded"
+print "Activating Kafka parcel. This might take a while."
+if parcel.stage == "DISTRIBUTED":
+  parcel = wait_for_parcel(parcel.activate(), api, parcel, cluster_name, 'ACTIVATED')
 
-print "Starting parcel distribution. This might take a while"
-cmd = PARCEL.start_distribution()
-if cmd.success != True:
-    print "Parcel distribution failed!"
-    exit(0)
+kafka_service = cluster.create_service('KAFKA-1', "KAFKA")
 
-while PARCEL.stage != "DISTRIBUTED":
-    sleep(5)
-    PARCEL = get_parcel(api, PARCEL_PROCUCT, PARCEL_VERSION, cluster_name)
+for (i, slave) in enumerate(slave_nodes):
+  kafka_service.create_role('KAFKA-BROKER_%i' % i, 'KAFKA_BROKER', slave)
+for (i, edge) in enumerate(edge_nodes):
+  kafka_service.create_role('KAFKA-GW_EDGE%s' % i, 'GATEWAY', edge)
 
-print "Parcel distributed"
-
-print "Activating the parcel"
-cmd = PARCEL.activate()
-if cmd.success != True:
-    print "PArcel Activation failed!"
-    exit(0)
-
-while PARCEL.stage != "ACTIVATED":
-    PARCEL = get_parcel(api, PARCEL_PROCUCT, PARCEL_VERSION, cluster_name)
-
-print "Parcel activated!"
-
-
-kafka_service = CLUSTER.create_service('kafka', "KAFKA")
-
-zookeeper_name = "zookeeper"
-
-kafka_service.update_config({'zookeeper_service': zookeeper_name})
-
-#Create kafka brokers on datanodes
-
-slave = 0
-for s in slave_nodes:
-    slave += 1
-    kafka_service.create_role('kafkabroker'+str(slave), "KAFKA_BROKER", s)
-
-
+cluster.auto_configure()
+kafka_service.deploy_client_config()
+sleep(15)
 kafka_service.start()

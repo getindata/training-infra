@@ -1,4 +1,10 @@
 ---
+- name: Create config template
+  template:
+    src: clouderaconfig.ini.j2
+    dest: /tmp/clouderaconfig.ini
 
-- name: Install kafks
-  command: chdir={{ role_path }}/files/ python install_kafka.py
+- name: Install kafka
+  script: install_kafka.py
+  args:
+    chdir: /tmp
