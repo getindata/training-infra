@@ -17,4 +17,4 @@
   command: /tmp/cm-setup.sh
 
 - name: execute CDH setup
-  command: /tmp/cdh-setup.py --cmhost cdh-master-01.c.getindata-training.internal --nodes cdh-master-01.c.getindata-training.internal  cdh-slave-01.c.getindata-training.internal cdh-slave-02.c.getindata-training.internal cdh-slave-03.c.getindata-training.internal cdh-slave-04.c.getindata-training.internal cdh-edge-01.c.getindata-training.internal
+  command: /tmp/cdh-setup.py --cmhost {{ hostvars[groups['master'][0]].ansible_fqdn }} --nodes {{ groups['all'] | map('extract', hostvars, ['ansible_fqdn']) | join(' ') }}
