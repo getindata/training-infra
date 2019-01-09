@@ -14,7 +14,7 @@
     blockinfile: |
       dest=/etc/ssh/sshd_config 
       content="Match address {{ hostvars[groups['master'][0]]['ansible_eth0']['ipv4']['address'] }}
-        PasswordAuthentication yes" state=present
+            \tPasswordAuthentication yes" state=present
   - name: Restart sshd
     service: name=sshd state=restarted
   - name: Remove require tty
