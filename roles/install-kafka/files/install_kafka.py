@@ -72,6 +72,5 @@ for (i, edge) in enumerate(edge_nodes):
   kafka_service.create_role('KAFKA-GW_EDGE%s' % i, 'GATEWAY', edge)
 
 cluster.auto_configure()
-kafka_service.deploy_client_config()
-sleep(15)
-kafka_service.start()
+cluster.restart(restart_only_stale_services=True, redeploy_client_configuration=True).wait()
+kafka_service.start().wait()
