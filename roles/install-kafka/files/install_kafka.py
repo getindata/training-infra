@@ -72,5 +72,17 @@ for (i, edge) in enumerate(edge_nodes):
   kafka_service.create_role('KAFKA-GW_EDGE%s' % i, 'GATEWAY', edge)
 
 cluster.auto_configure()
+
+# Due to (presumably) CM bug, auto_configure() after Kafka installation creates additional
+# role config group for HDFS gateway, which breaks further use of auto_configure().
+# Below we remove it if it exists.
+try:
+	hdfs_service = cluster.get_service("HDFS-1")
+	hdfs_service.delete_role_config_group("HDFS-1-GATEWAY-1")
+except cm_api.api_client.ApiException:
+	print("Not removing HDFS Gateway role config group as it doesn't exist")
+else:
+	print("Removed additional HDFS Gateway role config group")
+
 cluster.restart(restart_only_stale_services=True, redeploy_client_configuration=True).wait()
 kafka_service.start().wait()
