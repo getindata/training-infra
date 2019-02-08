@@ -1,85 +1,81 @@
 ---
-- name: install mysql client
-  yum: name=mysql state=latest
+- name: Add repository for sbt
+  get_url:
+    url: https://bintray.com/sbt/rpm/rpm
+    dest: /etc/yum.repos.d/bintray-sbt-rpm.repo
+    mode: 0644
 
-- name: install wget
-  yum: name=wget state=latest
 
-- name: add sbt repo
-  get_url: url=https://bintray.com/sbt/rpm/rpm dest=/etc/yum.repos.d/bintray-sbt-rpm.repo mode=0644
+- name: Install required packages
+  yum:
+    state: latest
+    name:
+      - mysql
+      - wget
+      - nano
+      - httpie
+      - openssl
+      - git
+      - vim
+      - python-setuptools
+      - python-setuptools-devel
+      - python-pip
+      - unzip
+      - sbt
 
-- name: install the latest version of sbt
-  yum: name=sbt state=latest disable_gpg_check=yes
+- name: Install required Python libraries
+  pip:
+    name:
+    - kafka-python
+    - snakebite
 
-- yum: name=nano state=latest
-- yum: name=httpie state=latest
-
-- name: adding group sqoop
-  group: name=sqoop state=present
-
-- name: adding user sqoop
-  user: name=sqoop comment="Sqoop" group=sqoop
+- name: Add sqoop user
+  user:
+    name: sqoop
+    group: sqoop
+    comment: Sqoop
 
 - name: Create client-directory for sqoop
-  file: path=/var/lib/sqoop owner=sqoop group=sqoop mode=0755 state=directory
+  file:
+    path: /var/lib/sqoop
+    owner: sqoop
+    group: sqoop
+    mode: 0755
+    state: directory
 
-- name: Get Java MySQL connector from the web
-  get_url: url=http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz dest=/tmp/mysql-connector-java-5.1.38.tar.gz
-
-- name: Unarchive MysQL connector to /tmp
-  command: tar -xvf /tmp/mysql-connector-java-5.1.38.tar.gz -C /tmp
-  become: yes
-  become_user: root
+- name: Get MySQL connector
+  unarchive:
+    src: http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz
+    dest: /tmp
+    remote_src: yes
 
 - name: Copy MySQL connector to /var/lib/sqoop/
   command: cp /tmp/mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar /var/lib/sqoop
   become: yes
   become_user: root
 
-- name: Copy scripts
-  copy: src="{{item}}" dest=/tmp mode=755
-  with_items:
-    - install-mvn.sh
-    - build-examples.sh
+# TODO: check if BigDataTutorial examples are still used
 
-#- name: install-maven
-#  command: /tmp/install-mvn.sh
-#  become: yes
-#  become_user: root
+# - name: Copy scripts
+#   copy:
+#     src: "{{item}}"
+#     dest: /tmp
+#     mode: 755
+#   with_items:
+#     - build-examples.sh
 
-- name: install the latest version of openssl
-  yum: name=openssl state=latest
+# - name: Clone BigDataTutorial repo
+#   git:
+#     repo: https://github.com/getindata/BigDataTutorial.git
+#     dest: /tmp/BigDataTutorial
+#     force: yes
 
-- name: install the latest version of git
-  yum: name=git state=latest
+# - name: Make BigDataTutorial directory tree readable
+#   file:
+#     path: /tmp/BigDataTutorial
+#     owner: root
+#     recurse: yes
 
-- name: install the latest version of vim
-  yum: name=vim state=latest
-
-- name: install the latest version of python-setuptools
-  yum: name=python-setuptools state=latest
-
-- name: install the latest version of python-setuptools-devel
-  yum: name=python-setuptools-devel state=latest
-
-- name: install python-pip
-  yum: name=python-pip
-
-- name: install kafka-python libs
-  pip: name=kafka-python
-
-- name: install the latest version of snakebite
-  easy_install: name=snakebite state=latest
-
-- name: install the latest version of unzip
-  yum: name=unzip state=latest
-
-- name: clone big data repo
-  git: repo=https://github.com/getindata/BigDataTutorial.git dest=/tmp/BigDataTutorial force=yes
-
-- name: Make BigDataTutorial directory tree readable
-  file: path=/tmp/BigDataTutorial owner=root recurse=yes
-
-- name: build examples
-  command: /tmp/build-examples.sh
+# - name: Build BigDataTutorial examples
+#   command: /tmp/build-examples.sh
 
