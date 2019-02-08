@@ -21,6 +21,9 @@
 - name: pip install numpy
   pip: name=numpy state=latest
 
+- name: pip install setuptools
+  pip: name=setuptools state=latest
+
 - name: pip install plotly
   pip: name=plotly state=latest
 
