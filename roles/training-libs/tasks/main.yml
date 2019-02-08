@@ -40,18 +40,12 @@
   copy: src="{{item}}" dest=/tmp mode=755
   with_items:
     - install-mvn.sh
-    - install-shellinthebox.sh
     - build-examples.sh
 
 #- name: install-maven
 #  command: /tmp/install-mvn.sh
 #  become: yes
 #  become_user: root
-
-- name: install-shellinthebox
-  command: /tmp/install-shellinthebox.sh
-  become: yes
-  become_user: root
 
 - name: install the latest version of openssl
   yum: name=openssl state=latest
