@@ -1,6 +1,7 @@
 ---
-- name: Disabling SELinux
-  copy: src=config dest=/etc/selinux/config owner=root group=root mode=0666
+- name: Disable SELinux
+  selinux:
+    state: disabled
 
 - name: Rebooting host
   reboot:
