@@ -12,10 +12,10 @@
 - name: chmod setup.sh
   command: chmod +x /tmp/setup.sh
 
-- name: setup jupyter 
+- name: setup jupyter
   command: sudo /tmp/setup.sh
 
-- name: ensure pysark kernel dir exists 
+- name: ensure pysark kernel dir exists
   file: path=/usr/local/share/jupyter/kernels/pyspark state=directory
 
 - name: ensure python2 kernel dir exists
@@ -39,9 +39,15 @@
     dest: /etc/jupyterhub/jupyterhub_config.py
     remote_src: True
 
-- name: chmod jupyter deamon
-  command: chmod +x /tmp/jupyterhub
+- name: Create systemd service file for JupyterHub
+  template:
+    src: jupyterhub.service.j2
+    dest: /etc/systemd/system/jupyterhub.service
 
-- name: restart jupyter daemon
-  shell: nohup /tmp/jupyterhub restart &
+- name: Enable and start JupyterHub service
+  systemd:
+    name: jupyterhub
+    state: started
+    enabled: yes
+    daemon_reload: yes
 
