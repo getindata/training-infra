@@ -1,0 +1,33 @@
+---
+- name: Copy CDS Spark2 setup script
+  copy:
+    src: "{{item}}"
+    dest: /tmp/
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - cds-setup.py
+
+- name: Download CSD file for CDS Spark2
+  get_url:
+    url: "{{ csd_download_url }}"
+    dest: "{{ csd_location }}"
+    mode: 0644
+    owner: cloudera-scm
+    group: cloudera-scm
+
+- name: Restart Cloudera Manager
+  service:
+    name: cloudera-scm-server
+    state: restarted
+
+- name: Wait for CM to start
+  wait_for:
+    port: 7180
+    host: localhost
+
+- name: Install CDS parcel
+  command: /tmp/cds-setup.py --cmhost {{ hostvars[groups['master'][0]].ansible_fqdn }} --nodes {{ groups['all'] | map('extract', hostvars, ['ansible_fqdn']) | join(' ') }}
+  args:
+    creates: /opt/cloudera/parcels/SPARK2
