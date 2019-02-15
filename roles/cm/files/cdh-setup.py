@@ -62,7 +62,7 @@ def get_cdh_parcel(cluster):
   for p in cluster.get_all_parcels():
       print '\t' + p.product + ' ' + p.version
       #if p.version.startswith(cdh_version_number) and p.product == "CDH":
-      if "cdh5" in p.version: 
+      if "cdh5" in p.version:
         parcels_list.append(p)
   if len(parcels_list) == 0:
       print "No " + cdh_version + " parcel found!"
@@ -81,14 +81,14 @@ def wait_for_parcel(cmd, api, parcel, cluster_name, stage):
     sleep(5)
     parcel = get_parcel(api, parcel.product, parcel.version, cluster_name)
   return parcel
-    
+
 def is_cluster_installed(api):
   clusters = api.get_all_clusters()
   return len(clusters.objects) > 0
 
 def set_up_cluster(cm_host, host_list):
   print "Setting up CDH cluster..."
-  
+
   api = ApiResource(cm_host, cm_port, cm_username, cm_password, version=7)
   cm = ClouderaManager(api)
 
@@ -102,7 +102,7 @@ def set_up_cluster(cm_host, host_list):
       exit(1)
 
   print "Installing hosts. This might take a while."
-  cmd = cm.host_install(host_username, host_list, password=host_password).wait() 
+  cmd = cm.host_install(host_username, host_list, password=host_password).wait()
   if cmd.success != True:
     print "cm_host_install failed: " + cmd.resultMessage
     exit(2)
@@ -111,7 +111,7 @@ def set_up_cluster(cm_host, host_list):
   if not is_cluster_installed(api):
     cm.auto_assign_roles()
     cm.auto_configure()
-  
+
   print "Creating cluster."
   if not is_cluster_installed(api):
     cluster = create_cluster(api, cluster_name, cdh_version)
@@ -123,19 +123,19 @@ def set_up_cluster(cm_host, host_list):
   print "Downloading CDH parcel. This might take a while."
   if cdh_parcel.stage == "AVAILABLE_REMOTELY":
     cdh_parcel = wait_for_parcel(cdh_parcel.start_download(), api, cdh_parcel, cluster_name, 'DOWNLOADED')
-  
+
   print "Distributing CDH parcel. This might take a while."
   if cdh_parcel.stage == "DOWNLOADED":
     cdh_parcel = wait_for_parcel(cdh_parcel.start_distribution(), api, cdh_parcel, cluster_name, 'DISTRIBUTED')
-  
+
   print "Activating CDH parcel. This might take a while."
   if cdh_parcel.stage == "DISTRIBUTED":
     cdh_parcel = wait_for_parcel(cdh_parcel.activate(), api, cdh_parcel, cluster_name, 'ACTIVATED')
-  
+
 #  if cdh_parcel.stage != "ACTIVATED":
 #    print "CDH parcel activation failed. Parcel in stage: " + cdh_parcel.stage
 #    exit(14)
-    
+
   print "Inspecting hosts. This might take a few minutes."
   cmd = cm.inspect_hosts()
   while cmd.success == None:
@@ -144,7 +144,7 @@ def set_up_cluster(cm_host, host_list):
       print "Host inpsection failed!"
       exit(8)
   print "Hosts successfully inspected: \n" + cmd.resultMessage
-  
+
   print "Creating specified services."
   for s in service_types_and_names.keys():
     try:
@@ -245,6 +245,9 @@ def set_up_cluster(cm_host, host_list):
                   "database_type" : hue_db_type }
   hue.update_config(hue_config)
 
+  # Set Java version to OpenJDK
+  cm.update_all_hosts_config({'java_home': '/usr/lib/jvm/java-openjdk'})
+
   print "Starting management service."
   cm_service = cm.get_service()
   cm_service.start().wait()
@@ -256,13 +259,13 @@ def set_up_cluster(cm_host, host_list):
       exit(11)
 
   print "First run successfully executed. Your cluster has been set up!"
-  
+
   config = cm.get_config(view='full')
   repolist = config['REMOTE_PARCEL_REPO_URLS']
   value = repolist.value or repolist.default
   value += ',' + anaconda_repo
   cm.update_config({'REMOTE_PARCEL_REPO_URLS': value})
-  sleep(10)  
+  sleep(10)
 
   cluster = api.get_cluster(cluster_name)
   parcel = cluster.get_parcel('Anaconda', anaconda_parcel_version)
@@ -278,7 +281,7 @@ def set_up_cluster(cm_host, host_list):
   print "Activating Anaconda parcel. This might take a while."
   if parcel.stage == "DISTRIBUTED":
     parcel = wait_for_parcel(parcel.activate(), api, parcel, cluster_name, 'ACTIVATED')
-  
+
   print "Anaconda is now installed."
 
 
