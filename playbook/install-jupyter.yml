@@ -1,3 +1,4 @@
 - hosts: edge
   roles:
+    - role: install-jupyter-libs
     - role: install-jupyter
