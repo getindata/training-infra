@@ -84,12 +84,11 @@ def install_cds(cm_host, host_list):
     service.create_role('SPARK2_ON_YARN-GW_SLAVE%s' % i, 'GATEWAY', slave)
 
   cluster.auto_configure()
-  cluster.deploy_client_config().wait()
 
   # Restart Cloudera Management Service and cluster
   cm_service = cm.get_service()
   cm_service.restart().wait()
-  cluster.restart().wait()
+  cluster.restart(restart_only_stale_services=True, redeploy_client_configuration=True).wait()
 
   # Due to (presumably) CM bug, auto_configure() after Kafka installation creates additional
   # role config group for HDFS gateway, which breaks further use of auto_configure().

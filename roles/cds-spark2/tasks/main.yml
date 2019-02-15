@@ -9,6 +9,18 @@
   with_items:
     - cds-setup.py
 
+- name: Create Spark2 Application History directory in HDFS
+  command: hdfs dfs -mkdir -p /user/spark/spark2ApplicationHistory
+  become_user: hdfs
+
+- name: Set owner for Spark2 Application History directory in HDFS
+  command: hdfs dfs -chown -R spark:spark /user/spark
+  become_user: hdfs
+
+- name: Set permissions for Spark2 Application History directory in HDFS
+  command: hdfs dfs -chmod 777 /user/spark/spark2ApplicationHistory
+  become_user: hdfs
+
 - name: Download CSD file for CDS Spark2
   get_url:
     url: "{{ csd_download_url }}"
@@ -16,11 +28,13 @@
     mode: 0644
     owner: cloudera-scm
     group: cloudera-scm
+  register: spark_csd
 
 - name: Restart Cloudera Manager
   service:
     name: cloudera-scm-server
     state: restarted
+  when: spark_csd.changed
 
 - name: Wait for CM to start
   wait_for:
