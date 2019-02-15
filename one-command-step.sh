@@ -8,14 +8,14 @@ CLUSTER_DIR=$3
 PRIVATE_KEY=${CLUSTER_DIR}/id_rsa_training
 HOSTS_FILE=${CLUSTER_DIR}/hosts
 
-display_usage() { 
+display_usage() {
     echo -e "\nUsage:\n$0 <step> <username> <cluster_dir> \n"
-} 
+}
 
-if [  $# -le 2 ]; then 
+if [  $# -le 2 ]; then
     display_usage
     exit 1
-fi 
+fi
 
 if [[ ! -f ${PRIVATE_KEY} ]] ; then
     echo 'File "${PRIVATE_KEY}" is not there, aborting.'
@@ -48,6 +48,16 @@ if [ "${STEP}" == "cm" ] ; then
 fi
 
 
+if [ "${STEP}" == "spark2" ] ; then
+    ansible-playbook playbook/cds-spark2.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
+fi
+
+
+if [ "${STEP}" == "jupyterhub" ] ; then
+    ansible-playbook playbook/install-jupyter.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
+fi
+
+
 if [ "${STEP}" == "training" ] ; then
     ansible-playbook playbook/training-setup.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
 fi
@@ -55,4 +65,9 @@ fi
 
 if [ "${STEP}" == "confluent" ] ; then
     ansible-playbook playbook/confluent.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
+fi
+
+
+if [ "${STEP}" == "kafka" ] ; then
+    ansible-playbook playbook/install-kafka.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
 fi
