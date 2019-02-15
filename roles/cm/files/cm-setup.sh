@@ -17,6 +17,8 @@ echo "Installing dependencies" >> ${cm_status_file}
 yum -y install oracle-j2sdk1.7
 yum -y install cloudera-manager-server-db-2
 
+echo 'export JAVA_HOME="/usr/lib/jvm/java-openjdk"' >> /etc/default/cloudera-scm-server
+
 echo "Starting Cloudera SCM db and server" >> ${cm_status_file}
 service cloudera-scm-server-db start
 service cloudera-scm-server start
@@ -35,7 +37,7 @@ pip install cm-api
 echo "Wait for cm to be responsive" >> ${cm_status_file}
 CM_URL='http://localhost:7180'
 wget $CM_URL
-while [ $? -gt 0 ] 
+while [ $? -gt 0 ]
 do
   sleep 20
   echo "Waiting for Cloudera Manager to start, it can take few minutes." >> ${cm_status_file}
