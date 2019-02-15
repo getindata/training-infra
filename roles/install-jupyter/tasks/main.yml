@@ -4,7 +4,6 @@
   copy: src="{{item}}" dest=/tmp/ mode=755
   with_items:
     - jupyterhub_config.py
-    - jupyterhub
     - pyspark_kernel.json
     - python2_kernel.json
     - setup.sh
