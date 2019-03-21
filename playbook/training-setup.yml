@@ -7,6 +7,7 @@
     training_data_lyrics_dir: /training/data/lyrics
     training_jar_dir: /training/jar
     users:
+      -  alpaca
       -  bat
       -  bear
       -  bison
@@ -18,11 +19,15 @@
       -  fenek
       -  ferret
       -  fox
+      -  gazelle
       -  hornet
       -  koala
       -  lama
       -  lemur
       -  lion
+      -  monkey
+      -  narwhal
+      -  owl
       -  panda
       -  puma
       -  shark
