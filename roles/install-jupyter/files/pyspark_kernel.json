@@ -14,6 +14,6 @@
   "SPARK_HOME": "/opt/cloudera/parcels/SPARK2/lib/spark2",
   "PYTHONPATH": "/opt/cloudera/parcels/Anaconda/envs/jupyterhub35/lib/python3.5/site-packages:/opt/cloudera/parcels/SPARK2/lib/spark2/python/:/opt/cloudera/parcels/SPARK2/lib/spark2/python/lib/py4j-0.10.7-src.zip:/usr/lib64/python2.7/site-packages:$PYTHONPATH",
   "PYTHONSTARTUP": "/opt/cloudera/parcels/SPARK2/lib/spark2/python/pyspark/shell.py",
-  "PYSPARK_SUBMIT_ARGS": "--master yarn-client pyspark-shell"
+  "PYSPARK_SUBMIT_ARGS": "--master yarn --conf spark.port.maxRetries=128 --driver-memory 650m --conf spark.yarn.driver.memoryOverhead=400 --conf spark.yarn.am.memory=1g --conf spark.executor.memory=824m --conf spark.yarn.executor.memoryOverhead=200 --conf spark.executor.cores=2 pyspark-shell"
  }
 }
