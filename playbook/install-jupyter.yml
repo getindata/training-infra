@@ -1,4 +1,18 @@
 - hosts: edge
-  roles:
-    - role: install-jupyter-libs
-    - role: install-jupyter
+  tasks:
+    - include_role:
+        name: install-jupyter-libs
+    - include_role:
+        name: install-jupyter
+
+- hosts: slave
+  tasks:
+    - include_role:
+        name: install-jupyter
+        tasks_from: worker
+
+- hosts: edge, slave
+  tasks:
+    - include_role:
+        name: install-jupyter-libs
+        tasks_from: anaconda
