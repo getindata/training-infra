@@ -1,0 +1,13 @@
+---
+
+- name: copying files to install jupyter
+  copy: src="{{item}}" dest=/tmp/ mode=755
+  with_items:
+    - setup-worker.sh
+
+- name: chmod setup.sh
+  command: chmod +x /tmp/setup-worker.sh
+
+- name: setup jupyter
+  command: sudo /tmp/setup-worker.sh
+
