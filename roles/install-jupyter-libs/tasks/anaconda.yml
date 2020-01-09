@@ -1,0 +1,5 @@
+---
+
+- name: Install additional Python libraries
+  command: "{{ anaconda_venv_path  }}/bin/pip install {{ additional_packages|join(' ') }}"
+

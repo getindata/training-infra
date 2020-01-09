@@ -1,0 +1,14 @@
+---
+
+anaconda_venv_path: /opt/cloudera/parcels/Anaconda/envs/jupyterhub35
+
+additional_packages:
+  - pandas
+  - numpy
+  - plotly
+  - seaborn
+  - ml_metrics
+  - ggplot
+  - sklearn
+  - ipywidgets
+  - matplotlib
