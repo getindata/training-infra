@@ -31,7 +31,6 @@ def parse_terraform_show(path):
 
         if 'network_interface.0.access_config.0.nat_ip' in line:
             host[type]['public_ip'].append(get_part(line, ' = ', 1).strip())
-
     #print host
     return host
 
@@ -82,19 +81,12 @@ def parse_terraform_show_json(path):
         host[type]['public_ip'].append(public_ip)
         host[type]['name'].append(name)
 
-
-
         #print "type: %s" % type
         #print "name: %s" % name
         #print "private_dns: %s" % private_dns
         #print "public_ip: %s" % public_ip
 
     return host
-
-
-
-        #print item['network_interface'].keys()
-    
 
 def write_master_ip_to_clouderaconfig(host):
     command = "cm.host=%s\n" % (host['master']['public_ip'][0])
@@ -131,8 +123,6 @@ def main():
 
     path = '%s/terraform.tfstate' % terraform_dir
 
-    #host = parse_terraform_show(path)
-
     version = check_terraform_version()
     if version['major'] == 0 and version['minor']<12:
         path = '%s/terraform.tfstate' % terraform_dir
@@ -144,13 +134,6 @@ def main():
         filename = write_hosts_file(host, terraform_dir)
     write_master_ip_to_clouderaconfig(host)
 
-
-    #print host
-
-
-    #if len(host) > 0:
-    #    filename = write_hosts_file(host, terraform_dir)
-    #write_master_ip_to_clouderaconfig(host)
 
 if __name__ == "__main__":
     main()
