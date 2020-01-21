@@ -2,7 +2,7 @@
 
 USERNAME=admin
 TERRAFORM_CONF_DIR=$1
-export GOOGLE_CLOUD_KEYFILE_JSON=/Users/michalraczyk/keys/training-infra/getindata-terraform.json
+export GOOGLE_CLOUD_KEYFILE_JSON=<<Path to google json credentials file>>
 
 set -e -x
 ./one-command-step.sh gce ${USERNAME} ${TERRAFORM_CONF_DIR}
