@@ -22,6 +22,16 @@
   with_items:
     - "{{ users }}"
 
+- name: Set JAVA_HOME
+  blockinfile: 
+    dest: "/home/{{item}}/.bashrc"
+    block: |
+      export JAVA_HOME=/usr/lib/jvm/jre-openjdk/
+    insertbefore: EOF
+    create: yes
+  with_items:
+    - "{{ users }}"
+
 - name: Disable password-based login for security
   lineinfile:
     path: /etc/ssh/sshd_config

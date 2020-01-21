@@ -1,7 +1,40 @@
 ---
+- name: Configure YARN
+  block:
+    - name: Copy script for CM
+      copy: src="{{item}}" dest=/tmp/ owner=root group=root mode=0700
+      with_items:
+        - configure_yarn.py
+        - commands.py
+        - clouderaconfig.ini
+    - name: Run yarn configuration update
+    #command: chdir={{ role_path }}/files/ python "{{ item }}"
+      command: /tmp/configure_yarn.py
+      become: yes
+      become_user: root
+      register: yarn_config
+      args:
+        chdir: /tmp/
+  rescue:
+    - debug: var=yarn_config.stdout_lines
+    - debug: var=yarn_config.stderr_lines
 
-
-- name: Run configuration scripts
-  command: chdir={{ role_path }}/files/ python "{{ item }}"
-  with_items:
-    - {{ configuration_scripts_to_run }}
+- name: Configure SPARK2 ON YARN
+  block:
+    - name: Copy script for CM
+      copy: src="{{item}}" dest=/tmp/ owner=root group=root mode=0700
+      with_items:
+        - configure_spark2.py
+        - commands.py
+        - clouderaconfig.ini
+    - name: Run spark configuration update
+    #command: chdir={{ role_path }}/files/ python "{{ item }}"
+      command: /tmp/configure_spark2.py
+      become: yes
+      become_user: root
+      register: spark2_config
+      args:
+        chdir: /tmp/
+  rescue:
+    - debug: var=spark2_config.stdout_lines
+    - debug: var=spark2_config.stderr_lines

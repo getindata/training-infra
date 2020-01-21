@@ -13,6 +13,8 @@
 
 - name: setup jupyter
   command: sudo /tmp/setup.sh
+  register: jupyter_setup
+- debug: var=jupyter_setup.stdout_lines
 
 - name: ensure pysark kernel dir exists
   file: path=/usr/local/share/jupyter/kernels/pyspark state=directory
