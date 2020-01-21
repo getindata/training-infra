@@ -9,5 +9,5 @@ playbook/*.retry
 ./roles/*/.travis.yml
 .DS_Store
 terraform.tfstate
-.terraform
+**/.terraform
 **/id_rsa_training
