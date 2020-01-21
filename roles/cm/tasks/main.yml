@@ -14,7 +14,12 @@
   become_user: root
 
 - name: run CM script
-  command: /tmp/cm-setup.sh
+  script: cm-setup.sh
+  register: cm_out
+
+- debug: var=cm_out.stdout_lines
 
 - name: execute CDH setup
   command: /tmp/cdh-setup.py --cmhost {{ hostvars[groups['master'][0]].ansible_fqdn }} --nodes {{ groups['all'] | map('extract', hostvars, ['ansible_fqdn']) | join(' ') }}
+  register: cdh_out
+- debug: var=cdh_out.stdout_lines

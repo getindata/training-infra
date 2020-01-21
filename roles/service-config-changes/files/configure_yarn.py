@@ -34,3 +34,4 @@ for cluster in api.get_all_clusters():
 set_configuration_service(CLUSTER, service_name, configuration)
 set_configuration_roles(service_name, cluster_name, configuration, api)
 restart_deployconfig(CLUSTER, service_name)
+cluster.restart(restart_only_stale_services=True, redeploy_client_configuration=True).wait()

@@ -89,7 +89,8 @@ def parse_terraform_show_json(path):
     return host
 
 def write_master_ip_to_clouderaconfig(host):
-    command = "cm.host=%s\n" % (host['master']['public_ip'][0])
+    #command = "cm.host=%s\n" % (host['master']['public_ip'][0])
+    command = "cm.host=%s\n" % (host['master']['private_dns'][0])
     
     with open('playbook/clouderaconfig.ini', 'r') as file:
         data = file.readlines()

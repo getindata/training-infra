@@ -43,5 +43,7 @@
 
 - name: Install CDS parcel
   command: /tmp/cds-setup.py --cmhost {{ hostvars[groups['master'][0]].ansible_fqdn }} --nodes {{ groups['all'] | map('extract', hostvars, ['ansible_fqdn']) | join(' ') }}
+  register: cds_installation
   args:
     creates: /opt/cloudera/parcels/SPARK2
+- debug: var=cds_installation.stdout_lines

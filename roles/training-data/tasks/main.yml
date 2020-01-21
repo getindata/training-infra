@@ -20,7 +20,10 @@
 
 
 - name: download avro tools
-  get_url: url=http://central.maven.org/maven2/org/apache/avro/avro-tools/1.7.7/avro-tools-1.7.7.jar dest={{ training_jar_dir }} mode=0755
+  get_url: 
+    url=https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.7.7/avro-tools-1.7.7.jar
+    dest={{ training_jar_dir }} 
+    mode=0755
 
 
 - name: download streamrock zip

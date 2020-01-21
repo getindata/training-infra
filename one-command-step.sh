@@ -23,7 +23,7 @@ if [[ ! -f ${PRIVATE_KEY} ]] ; then
 fi
 
 if [ "${STEP}" == "gce" ] ; then
-    ( cd ${CLUSTER_DIR}; terraform plan; terraform apply )
+    ( cd ${CLUSTER_DIR}; terraform init; terraform plan; terraform apply )
     ./get_gce_ips_from_terraform.py -i ${CLUSTER_DIR}
 fi
 
@@ -47,6 +47,9 @@ if [ "${STEP}" == "cm" ] ; then
     ansible-playbook playbook/ntpd-enable.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
 fi
 
+if [ "${STEP}" == "configure-services" ] ; then
+    ansible-playbook playbook/service-config-changes.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}
+fi
 
 if [ "${STEP}" == "spark2" ] ; then
     ansible-playbook playbook/cds-spark2.yml -i ${HOSTS_FILE} -u ${USERNAME} --private-key ${PRIVATE_KEY}

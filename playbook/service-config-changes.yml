@@ -1,0 +1,12 @@
+- hosts: master
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: service-config-changes
+- hosts: edge
+  gather_facts: no
+  tasks:
+    - name: Restart service jupyterhub
+      service:
+        name: jupyterhub
+        state: restarted
