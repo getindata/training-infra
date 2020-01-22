@@ -1,6 +1,6 @@
 variable "name-prefix" {
   type    = string
-  default = "cdh-mrtest"
+  default = "dev-cdh"
 }
 
 
