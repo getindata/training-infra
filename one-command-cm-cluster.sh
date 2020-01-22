@@ -2,7 +2,9 @@
 
 USERNAME=admin
 TERRAFORM_CONF_DIR=$1
-export GOOGLE_CLOUD_KEYFILE_JSON=<<Path to google json credentials file>>
+
+# Set the following variable if cluster/*/machines.tf doesn't provide the path to gcloud json credentials file 
+# export GOOGLE_CLOUD_KEYFILE_JSON=<<Path to google json credentials file>>
 
 set -e -x
 ./one-command-step.sh gce ${USERNAME} ${TERRAFORM_CONF_DIR}
