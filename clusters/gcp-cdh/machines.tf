@@ -1,4 +1,5 @@
 provider "google" {
+    credentials = "${file("getindatatraining.json")}"
     project = "getindata-training"
     zone = var.google-cloud-region
 }
